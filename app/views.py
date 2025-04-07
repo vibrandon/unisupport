@@ -48,7 +48,7 @@ def auto_match():
 # =====================
 @app.route("/")
 def home():
-    return render_template('home.html', title="Home")
+    return render_template('home.html', title="UniSupport")
 
 # =====================
 # 👤 User Account Page: View + Edit Addresses
@@ -85,12 +85,12 @@ def admin():
 @app.route("/chat")
 @login_required
 def chat():
-    return render_template('chat.html', title="Admin")
+    return render_template('chat.html', title="Chat")
 
 @app.route("/match")
 @login_required
 def match():
-    return render_template('match.html', title="Admin")
+    return render_template('match.html', title="Match")
 
 @app.route("/professionals")
 @login_required
@@ -192,7 +192,8 @@ def register():
         new_user.set_password(form.password.data)
         db.session.add(new_user)
         db.session.commit()
-        return redirect(url_for('home'))
+        flash("Registration Successful, Login to Continue",category="info")
+        return redirect(url_for('login'))
     return render_template('generic_form.html', title='Register', form=form)
 
 

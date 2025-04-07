@@ -19,11 +19,10 @@ class User(UserMixin, db.Model):
 
     # Auth + user info
     username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True, unique=True)
-    firstname: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
+    firstname: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,nullable=True)
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(64))
-    lastname: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
+    lastname: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,nullable=True)
     email: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
-    password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     role: so.Mapped[str] = so.mapped_column(sa.String(10), default="User")
     address: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256), nullable=True)
 
