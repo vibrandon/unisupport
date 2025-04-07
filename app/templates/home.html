@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 class="mt-3">Welcome to UniSupport</h1>
+        <p class="lead">Your central hub for student wellbeing and academic support</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🌿 Student Wellbeing</h5>
+                    <p class="card-text">Access personalized mental health support with AI chat, professional matching, and wellbeing surveys.</p>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">Get Support</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">📚 Academic Adjustments</h5>
+                    <p class="card-text">Easily request deadline extensions or adjustments, linked directly to your wellbeing data for informed decisions.</p>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">Request Support</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">🤝 Professional Matching</h5>
+                    <p class="card-text">Automatically or manually match with qualified professionals based on your needs and preferences.</p>
+                    <a href="{{ url_for('match') }}" class="btn btn-outline-primary">Match With a Professional</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">💬 AI Chatbot & Messaging</h5>
+                    <p class="card-text">Chat anytime with our AI assistant or connect with staff and peers in moderated chatrooms.</p>
+                    <a href="{{ url_for('chat') }}" class="btn btn-outline-primary">Chat With Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('account') }}" class="btn btn-lg btn-success">Go to My Dashboard</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
