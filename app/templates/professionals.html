@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">👨‍⚕️ Available Professionals</h1>
+
+    {% if professionals %}
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for prof in professionals %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{ prof.name }}</h5>
+                    <p class="card-text"><strong>Specialty:</strong> {{ prof.specialty }}</p>
+                    <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ prof.email }}">{{ prof.email }}</a></p>
+                    <span class="badge {% if prof.available %}bg-success{% else %}bg-secondary{% endif %}">
+                        {{ "Available" if prof.available else "Unavailable" }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="alert alert-info mt-3">No professionals found in the system.</div>
+    {% endif %}
+</div>
+{% endblock %}
