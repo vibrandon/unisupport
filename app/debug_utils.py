@@ -2,48 +2,51 @@ def reset_db():
     from app import db
     from app.models import Student, Professional
 
-    # 🔥 Drop & recreate all tables
+    # 🔥 Reset database
     db.drop_all()
     db.create_all()
 
-    # # 👨‍⚕️ Professionals
-    # p1 = Professional(
-    #     username='drsmith',
-    #     firstname='John',
-    #     lastname='Smith',
-    #     email='john.smith@unisupport.com',
-    #     phoneNumber='1234567890',
-    #     workplace='UoB Counseling Center',
-    #     expertise='Anxiety, Stress, Exam Pressure',
-    #     userType='professional'
-    # )
-    # p1.set_password('smithpass')
-    #
-    # p2 = Professional(
-    #     username='drjane',
-    #     firstname='Jane',
-    #     lastname='Doe',
-    #     email='jane.doe@unisupport.com',
-    #     phoneNumber='0987654321',
-    #     workplace='Health Services',
-    #     expertise='Time Management, Burnout',
-    #     userType='professional'
-    # )
-    # p2.set_password('janepass')
-    #
-    # db.session.add_all([p1, p2])
-    # db.session.commit()  # Commit now so we have p1.id and p2.id for foreign keys
+    # 👨‍⚕️ Professionals
+    p1 = Professional(
+        username='drsmith',
+        firstname='John',
+        lastname='Smith',
+        email='john.smith@unisupport.com',
+        phone_number='1234567890',
+        workplace='UoB Counseling Center',
+        specialty='Anxiety, Depression, Stress',
+        role='professional',
+        type='professional'
+    )
+    p1.set_password('smithpass')
 
-    # 🎓 Students assigned to professionals
+    p2 = Professional(
+        username='drjane',
+        firstname='Jane',
+        lastname='Doe',
+        email='jane.doe@unisupport.com',
+        phone_number='0987654321',
+        workplace='Health Services',
+        specialty='Time Management, Burnout',
+        role='professional',
+        type='professional'
+    )
+    p2.set_password('janepass')
+
+    db.session.add_all([p1, p2])
+    db.session.commit()
+
+    # 🎓 Students
     s1 = Student(
         username='alice',
         firstname='Alice',
         lastname='Green',
         email='alice@student.com',
-        phoneNumber='1112223333',
+        phone_number='1112223333',
+        address='Dorm 12A',
         degree='Computer Science',
-        address='Dorm 7A',
-        userType='student'
+        role='student',
+        type='student'
     )
     s1.set_password('alicepw')
 
@@ -52,10 +55,11 @@ def reset_db():
         firstname='Bob',
         lastname='Brown',
         email='bob@student.com',
-        phoneNumber='2223334444',
+        phone_number='2223334444',
+        address='Dorm 14B',
         degree='Psychology',
-        address='Dorm 5B',
-        userType='student'
+        role='student',
+        type='student'
     )
     s2.set_password('bobpw')
 
@@ -64,10 +68,11 @@ def reset_db():
         firstname='Charlie',
         lastname='Black',
         email='charlie@student.com',
-        phoneNumber='3334445555',
+        phone_number='3334445555',
+        address='Dorm 16C',
         degree='Engineering',
-        address='Dorm 10C',
-        userType='student'
+        role='student',
+        type='student'
     )
     s3.set_password('charliepw')
 

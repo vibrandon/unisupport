@@ -10,57 +10,55 @@ from dataclasses import dataclass
 # =========================
 # 👤 User Model
 # =========================
-@dataclass
+
 class User(UserMixin, db.Model):
-    __abstract__ = True
-
-    # Primary key
+    __tablename__ = 'users'
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    username: so.Mapped[str] = so.mapped_column(sa.String(64), unique=True, index=True)
+    firstname: so.Mapped[str] = so.mapped_column(sa.String(64))
+    lastname: so.Mapped[str] = so.mapped_column(sa.String(64))
+    email: so.Mapped[str] = so.mapped_column(sa.String(120), unique=True)
+    phone_number: so.Mapped[Optional[str]] = so.mapped_column(sa.String(64), unique=True, nullable=True)
+    role: so.Mapped[str] = so.mapped_column(sa.String(64))  # will hold "student" or "professional"
+    password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
+    type: so.Mapped[str] = so.mapped_column(sa.String(50))  # discriminator column
 
-    # Auth + user info
-    username: so.Mapped[str] = so.mapped_column(sa.String(64), index=True,unique=True)
-    firstname: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
-    passwordHash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(64))
-    email: so.Mapped[str] = so.mapped_column(sa.String(120),unique=True)
-    lastname: so.Mapped[str] = so.mapped_column(sa.String(64), index=True)
-    phoneNumber: so.Mapped[str] = so.mapped_column(sa.String(64),unique=True)
-    userType: so.Mapped[str] = so.mapped_column(sa.String(64))
+    __mapper_args__ = {
+        "polymorphic_identity": "user",
+        "polymorphic_on": type,
+    }
 
-    # Utility methods
     def set_password(self, password):
-        self.passwordHash = generate_password_hash(password)
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        return check_password_hash(self.passwordHash, password)
-
-    def isStudent(self):
-        return self.userType == 'student'
-
-    def isProfessional(self):
-        return self.userType == 'professional'
+        return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f'User(id={self.id}, username={self.username}, email={self.email}, role={self.role})'
 
 @dataclass
 class Student(User):
-    __tablename__ = "students"
-
+    __tablename__ = 'students'
+    id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
     degree: so.Mapped[str] = so.mapped_column(sa.String(120))
-    address: so.Mapped[str] = so.mapped_column(sa.String(120))
+    address: so.Mapped[str] = so.mapped_column(sa.String(256))
 
-    #Foreign key to professional
-    professional_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('professionals.id'), nullable=True)
-    professional: so.Mapped["Professional"] = so.relationship(back_populates="students")
+    __mapper_args__ = {
+        "polymorphic_identity": "student",
+    }
+
 
 @dataclass
 class Professional(User):
-    __tablename__ = "professionals"
-
+    __tablename__ = 'professionals'
+    id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
     workplace: so.Mapped[str] = so.mapped_column(sa.String(120))
-    expertise: so.Mapped[str] = so.mapped_column(sa.String(120))
+    specialty: so.Mapped[str] = so.mapped_column(sa.String(120))
 
-    students: so.WriteOnlyMapped[list['Student']] = so.relationship(back_populates="professional")
+    __mapper_args__ = {
+        "polymorphic_identity": "professional",
+    }
 
 
 # @dataclass
