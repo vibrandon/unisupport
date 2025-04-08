@@ -1,37 +1,77 @@
 def reset_db():
-    from app.models import User, Professional, Message, AdjustmentRequest
     from app import db
+    from app.models import Student, Professional
 
-    # 🔥 Wipe everything
+    # 🔥 Drop & recreate all tables
     db.drop_all()
     db.create_all()
 
-    # 👤 Users
-    u1 = User(username='amy', firstname='Amy', lastname='Smith', email='a@b.com', role='Admin', address='123 Campus Way')
-    u1.set_password('amy.pw')
-    u2 = User(username='tom', firstname='Tom', lastname='Lee', email='t@b.com', address='Dorm 7')
-    u2.set_password('tom.pw')
-    u3 = User(username='yin', firstname='Yin', lastname='Chen', email='y@b.com', role='Admin', address='Off-campus')
-    u3.set_password('yin.pw')
-    u4 = User(username='tariq', firstname='Tariq', lastname='Hassan', email='tariq@b.com')
-    u4.set_password('tariq.pw')
-    u5 = User(username='jo', firstname='Jo', lastname='Jones', email='jo@b.com')
-    u5.set_password('jo.pw')
+    # # 👨‍⚕️ Professionals
+    # p1 = Professional(
+    #     username='drsmith',
+    #     firstname='John',
+    #     lastname='Smith',
+    #     email='john.smith@unisupport.com',
+    #     phoneNumber='1234567890',
+    #     workplace='UoB Counseling Center',
+    #     expertise='Anxiety, Stress, Exam Pressure',
+    #     userType='professional'
+    # )
+    # p1.set_password('smithpass')
+    #
+    # p2 = Professional(
+    #     username='drjane',
+    #     firstname='Jane',
+    #     lastname='Doe',
+    #     email='jane.doe@unisupport.com',
+    #     phoneNumber='0987654321',
+    #     workplace='Health Services',
+    #     expertise='Time Management, Burnout',
+    #     userType='professional'
+    # )
+    # p2.set_password('janepass')
+    #
+    # db.session.add_all([p1, p2])
+    # db.session.commit()  # Commit now so we have p1.id and p2.id for foreign keys
 
-    # 👨‍⚕️ Professionals
-    p1 = Professional(name="Dr. Alice Bennett", specialty="Therapist", email="alice@unicare.com")
-    p2 = Professional(name="Mr. Ben Carter", specialty="Academic Advisor", email="ben@unicare.com")
+    # 🎓 Students assigned to professionals
+    s1 = Student(
+        username='alice',
+        firstname='Alice',
+        lastname='Green',
+        email='alice@student.com',
+        phoneNumber='1112223333',
+        degree='Computer Science',
+        address='Dorm 7A',
+        userType='student'
+    )
+    s1.set_password('alicepw')
 
-    # 📩 Messages
-    m1 = Message(sender_id=1, recipient_id=2, content="Hi, how do I request an extension?")
-    m2 = Message(sender_id=2, recipient_id=1, content="Sure! Use the 'Adjustments' section.")
+    s2 = Student(
+        username='bob',
+        firstname='Bob',
+        lastname='Brown',
+        email='bob@student.com',
+        phoneNumber='2223334444',
+        degree='Psychology',
+        address='Dorm 5B',
+        userType='student'
+    )
+    s2.set_password('bobpw')
 
-    # 📄 Adjustment Requests
-    ar1 = AdjustmentRequest(user_id=2, reason="Mental health reasons affecting assignment deadlines.")
-    ar2 = AdjustmentRequest(user_id=5, reason="Unexpected family emergency.")
+    s3 = Student(
+        username='charlie',
+        firstname='Charlie',
+        lastname='Black',
+        email='charlie@student.com',
+        phoneNumber='3334445555',
+        degree='Engineering',
+        address='Dorm 10C',
+        userType='student'
+    )
+    s3.set_password('charliepw')
 
-    db.session.add_all([u1, u2, u3, u4, u5, p1, p2, m1, m2, ar1, ar2])
+    db.session.add_all([s1, s2, s3])
     db.session.commit()
 
-    print("✅ Database reset complete — users, professionals, messages, and adjustment requests seeded.")
-
+    print("✅ Database reset complete — professionals and students seeded.")
