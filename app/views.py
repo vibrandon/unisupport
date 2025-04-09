@@ -1,14 +1,12 @@
-from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
+from flask import render_template, redirect, url_for, flash, request
 from app import app
-from app.models import User, Professional, Student
-from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm
+from app import User, Professional, Student
+from app import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, ChatbotForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
-import csv
-import io
-import numpy as np
+
 
 @app.route("/match/auto")
 @login_required
@@ -56,7 +54,7 @@ def home():
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    from app.forms import UpdateAccountForm, StudentUpdateForm, ProfessionalUpdateForm
+    from app import UpdateAccountForm, StudentUpdateForm, ProfessionalUpdateForm
 
     base_form = UpdateAccountForm(obj=current_user)
     student_form = StudentUpdateForm(obj=current_user if current_user.type == "student" else None)
@@ -159,7 +157,7 @@ def match():
 @app.route("/professionals")
 @login_required
 def view_professionals():
-    from app.models import Professional  # if not already imported
+    from app import Professional  # if not already imported
     professionals = db.session.scalars(db.select(Professional)).all()
     return render_template("professionals.html", title="Professionals", professionals=professionals)
 

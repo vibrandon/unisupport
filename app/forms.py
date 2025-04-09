@@ -2,11 +2,9 @@ from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField
 from wtforms.fields.choices import SelectField
-from wtforms.fields.numeric import IntegerField
-from wtforms.fields.simple import TextAreaField
-from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email, Optional
+from wtforms.validators import DataRequired, EqualTo, ValidationError, Email, Optional
 from app import db
-from app.models import User
+from app import User
 
 class ChooseForm(FlaskForm):
     choice = HiddenField('Choice')
@@ -82,3 +80,6 @@ class ProfessionalUpdateForm(FlaskForm):
     specialty = StringField("Specialty", validators=[Optional()])
     submit = SubmitField("Update Professional Info")
 
+class ChatbotForm(FlaskForm):
+    message = StringField('Type your message here', validators=[DataRequired()])
+    submit = SubmitField('Send')

@@ -1,11 +1,12 @@
-from datetime import datetime
 from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
+from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from dataclasses import dataclass
+from datetime import datetime
 
 # =========================
 # 👤 User Model
@@ -62,6 +63,20 @@ class Professional(User):
 
 class Admin(User):
     __tablename__ = 'admins'
+
+@dataclass()
+class Chatbot(db.Model):
+    __tablename__ = 'MessagesWithChatbot'
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    user_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'))
+    message: so.Mapped[str] = so.mapped_column(sa.Text)
+    ChatbotMessage: so.Mapped[bool] = so.mapped_column(default=False)
+    TimeOfMessage: so.Mapped[datetime] = so.mapped_column(sa.DateTime,default=sa.func.now())
+    user: so.Mapped['User'] = relationship(back_populates='MessagesWithChatbot')
+
+    def __repr__(self):
+        return f'Chatbot(id={self.id}, user_id={self.user_id}, ChatbotMessage={self.ChatbotMessage})'
+
 
 # @dataclass
 # class wellbeingProfile(db.Model):
