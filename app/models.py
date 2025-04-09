@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
     firstname: so.Mapped[str] = so.mapped_column(sa.String(64))
     lastname: so.Mapped[str] = so.mapped_column(sa.String(64))
     email: so.Mapped[str] = so.mapped_column(sa.String(120), unique=True)
-    phone_number: so.Mapped[Optional[str]] = so.mapped_column(sa.String(64), unique=True, nullable=True)
+    phoneNumber: so.Mapped[Optional[str]] = so.mapped_column(sa.String(64), unique=True, nullable=True)
     role: so.Mapped[str] = so.mapped_column(sa.String(64))  # will hold "student" or "professional"
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     type: so.Mapped[str] = so.mapped_column(sa.String(50))  # discriminator column
@@ -41,8 +41,8 @@ class User(UserMixin, db.Model):
 class Student(User):
     __tablename__ = 'students'
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
-    degree: so.Mapped[str] = so.mapped_column(sa.String(120))
-    address: so.Mapped[str] = so.mapped_column(sa.String(256))
+    degree: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
+    address: so.Mapped[str] = so.mapped_column(sa.String(256),nullable=True)
 
     __mapper_args__ = {
         "polymorphic_identity": "student",
@@ -53,13 +53,15 @@ class Student(User):
 class Professional(User):
     __tablename__ = 'professionals'
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
-    workplace: so.Mapped[str] = so.mapped_column(sa.String(120))
-    specialty: so.Mapped[str] = so.mapped_column(sa.String(120))
+    workplace: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
+    specialty: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
 
     __mapper_args__ = {
         "polymorphic_identity": "professional",
     }
 
+class Admin(User):
+    __tablename__ = 'admins'
 
 # @dataclass
 # class wellbeingProfile(db.Model):

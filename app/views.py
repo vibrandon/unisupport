@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
 from app import app
-from app.models import User, Professional
+from app.models import User, Professional, Student
 from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
@@ -56,18 +56,39 @@ def home():
 @app.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
-    form = UpdateAccountForm(obj=current_user)
+    from app.forms import UpdateAccountForm, StudentUpdateForm, ProfessionalUpdateForm
 
-    if form.validate_on_submit():
-        current_user.firstname = form.firstname.data
-        current_user.lastname = form.lastname.data
-        current_user.email = form.email.data
-        current_user.address = form.address.data
-        db.session.commit()
-        flash("Account details updated successfully.", "success")
-        return redirect(url_for('account'))
+    base_form = UpdateAccountForm(obj=current_user)
+    student_form = StudentUpdateForm(obj=current_user if current_user.type == "student" else None)
+    professional_form = ProfessionalUpdateForm(obj=current_user if current_user.type == "professional" else None)
 
-    return render_template('account.html', title="Account", form=form)
+    # Handle POST
+    if request.method == "POST":
+        updated = False
+
+        if base_form.validate_on_submit():
+            current_user.firstname = base_form.firstname.data
+            current_user.lastname = base_form.lastname.data
+            current_user.email = base_form.email.data
+            updated = True
+
+        if current_user.type == "student" and student_form.validate_on_submit():
+            current_user.degree = student_form.degree.data
+            current_user.address = student_form.address.data
+            updated = True
+
+        if current_user.type == "professional" and professional_form.validate_on_submit():
+            current_user.workplace = professional_form.workplace.data
+            current_user.specialty = professional_form.specialty.data
+            updated = True
+
+        if updated:
+            db.session.commit()
+            flash("✅ Account info updated successfully", "success")
+            return redirect(url_for("account"))
+
+    return render_template("account.html", title="Account", form=base_form, student_form=student_form, professional_form=professional_form)
+
 
 # =====================
 # 🔒 Admin Page: Manage users
@@ -81,6 +102,49 @@ def admin():
     q = db.select(User)
     user_lst = db.session.scalars(q)
     return render_template('admin.html', title="Admin", user_lst=user_lst, form=form)
+
+
+@app.route('/admin/user/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def view_user(user_id):
+    if current_user.role != "Admin":
+        flash("Admins only.", "danger")
+        return redirect(url_for('home'))
+
+    user = db.session.get(User, user_id)
+    if not user:
+        flash("User not found.", "warning")
+        return redirect(url_for('admin'))
+
+    if request.method == 'POST':
+        if 'delete' in request.form:
+            if user.id == current_user.id:
+                flash("You can't delete yourself!", "warning")
+            else:
+                db.session.delete(user)
+                db.session.commit()
+                flash(f"User '{user.username}' deleted.", "success")
+                return redirect(url_for('admin'))
+        else:
+            user.firstname = request.form.get('firstname')
+            user.lastname = request.form.get('lastname')
+            user.email = request.form.get('email')
+            user.username = request.form.get('username')
+            user.role = request.form.get('role')
+
+            if user.type == 'student':
+                user.degree = request.form.get('degree')
+                user.address = request.form.get('address')
+            elif user.type == 'professional':
+                user.workplace = request.form.get('workplace')
+                user.specialty = request.form.get('specialty')
+
+            db.session.commit()
+            flash("User details updated.", "success")
+            return redirect(url_for('view_user', user_id=user.id))
+
+    return render_template("admin_user_detail.html", title=f"Edit {user.username}", user=user)
+
 
 @app.route("/chat")
 @login_required
@@ -181,21 +245,44 @@ def change_pw():
     return render_template('generic_form.html', title='Change Password', form=form)
 
 
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
-    form = RegisterForm()
-    if form.validate_on_submit():
-        new_user = User(username=form.username.data, email=form.email.data)
-        new_user.set_password(form.password.data)
-        db.session.add(new_user)
-        db.session.commit()
-        flash("Registration Successful, Login to Continue",category="info")
-        return redirect(url_for('login'))
-    return render_template('generic_form.html', title='Register', form=form)
 
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        if form.userType.data == 'student':
+            #Make degree nullable and give them the option to change it in their account settings
+            newUser = Student(
+                username=form.username.data,
+                firstname=form.firstname.data,
+                lastname=form.lastname.data,
+                email=form.email.data,
+                role='student'
+            )
+        elif form.userType.data == 'professional':
+            #Make workplace nullable and give them an option to change it in their account settings.
+            newUser = Professional(
+                username=form.username.data,
+                firstname=form.firstname.data,
+                lastname=form.lastname.data,
+                email=form.email.data,
+                role='professional'
+            )
+        else:
+            flash('Invalid user type selected.', 'danger')
+            return redirect(url_for('register'))
+
+        newUser.set_password(form.password.data)
+        db.session.add(newUser)
+        db.session.commit()
+
+        flash("🎉 Registration successful! Please log in.", "success")
+        return redirect(url_for('login'))
+
+    return render_template('generic_form.html', title='Register', form=form)
 
 
 @app.route('/logout')

@@ -1,6 +1,6 @@
 def reset_db():
     from app import db
-    from app.models import Student, Professional
+    from app.models import Student, Professional, User
 
     # 🔥 Reset database
     db.drop_all()
@@ -12,7 +12,7 @@ def reset_db():
         firstname='John',
         lastname='Smith',
         email='john.smith@unisupport.com',
-        phone_number='1234567890',
+        phoneNumber='1234567890',
         workplace='UoB Counseling Center',
         specialty='Anxiety, Depression, Stress',
         role='professional',
@@ -25,7 +25,7 @@ def reset_db():
         firstname='Jane',
         lastname='Doe',
         email='jane.doe@unisupport.com',
-        phone_number='0987654321',
+        phoneNumber='0987654321',
         workplace='Health Services',
         specialty='Time Management, Burnout',
         role='professional',
@@ -33,7 +33,20 @@ def reset_db():
     )
     p2.set_password('janepass')
 
-    db.session.add_all([p1, p2])
+    p3 = Professional(
+        username='drlee',
+        firstname='Daniel',
+        lastname='Lee',
+        email='daniel.lee@unisupport.com',
+        phoneNumber='9998887777',
+        workplace='Student Wellness',
+        specialty='Academic Stress, Life Balance',
+        role='professional',
+        type='professional'
+    )
+    p3.set_password('leepass')
+
+    db.session.add_all([p1, p2, p3])
     db.session.commit()
 
     # 🎓 Students
@@ -42,7 +55,7 @@ def reset_db():
         firstname='Alice',
         lastname='Green',
         email='alice@student.com',
-        phone_number='1112223333',
+        phoneNumber='1112223333',
         address='Dorm 12A',
         degree='Computer Science',
         role='student',
@@ -55,7 +68,7 @@ def reset_db():
         firstname='Bob',
         lastname='Brown',
         email='bob@student.com',
-        phone_number='2223334444',
+        phoneNumber='2223334444',
         address='Dorm 14B',
         degree='Psychology',
         role='student',
@@ -68,7 +81,7 @@ def reset_db():
         firstname='Charlie',
         lastname='Black',
         email='charlie@student.com',
-        phone_number='3334445555',
+        phoneNumber='3334445555',
         address='Dorm 16C',
         degree='Engineering',
         role='student',
@@ -76,7 +89,47 @@ def reset_db():
     )
     s3.set_password('charliepw')
 
-    db.session.add_all([s1, s2, s3])
+    s4 = Student(
+        username='diana',
+        firstname='Diana',
+        lastname='White',
+        email='diana@student.com',
+        phoneNumber='4445556666',
+        address='Dorm 18A',
+        degree='Mathematics',
+        role='student',
+        type='student'
+    )
+    s4.set_password('dianapw')
+
+    s5 = Student(
+        username='ethan',
+        firstname='Ethan',
+        lastname='Gray',
+        email='ethan@student.com',
+        phoneNumber='5556667777',
+        address='Dorm 20B',
+        degree='Economics',
+        role='student',
+        type='student'
+    )
+    s5.set_password('ethanpw')
+
+    db.session.add_all([s1, s2, s3, s4, s5])
+    db.session.commit()
+
+
+    admin = User(
+        username='admin',
+        firstname='Admin',
+        lastname='User',
+        email='admin@unisupport.com',
+        role='Admin',
+        type='user'  # base user, not student/professional
+    )
+    admin.set_password('adminpass')
+
+    db.session.add(admin)
     db.session.commit()
 
     print("✅ Database reset complete — professionals and students seeded.")

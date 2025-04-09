@@ -1,9 +1,10 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField
+from wtforms.fields.choices import SelectField
 from wtforms.fields.numeric import IntegerField
 from wtforms.fields.simple import TextAreaField
-from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email
+from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email, Optional
 from app import db
 from app.models import User
 
@@ -44,10 +45,13 @@ class ChangePasswordForm(FlaskForm):
 
 
 class RegisterForm(FlaskForm):
+    firstname = StringField('Firstname', validators=[DataRequired()])
+    lastname = StringField('Lastname', validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), password_policy])
     confirm = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    userType = SelectField("Register as", choices=[('student', 'Student'), ('professional', 'Professional')])
     submit = SubmitField('Register')
 
     def validate_username(form, field):
@@ -64,7 +68,17 @@ class UpdateAccountForm(FlaskForm):
     firstname = StringField("First Name", validators=[DataRequired()])
     lastname = StringField("Last Name", validators=[DataRequired()])
     email = StringField("Email", validators=[DataRequired(), Email()])
-    address = StringField("Address", validators=[DataRequired()])
     submit = SubmitField("Update")
 
+
+
+class StudentUpdateForm(FlaskForm):
+    degree = StringField("Degree", validators=[Optional()])
+    address = StringField("Address", validators=[Optional()])
+    submit = SubmitField("Update Student Info")
+
+class ProfessionalUpdateForm(FlaskForm):
+    workplace = StringField("Workplace", validators=[Optional()])
+    specialty = StringField("Specialty", validators=[Optional()])
+    submit = SubmitField("Update Professional Info")
 
