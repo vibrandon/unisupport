@@ -7,7 +7,7 @@
     {% for prof, score in scored_profs %}
     <div class="card shadow-sm mb-3">
         <div class="card-body">
-            <h5 class="card-title">{{ prof.name }}</h5>
+            <h5 class="card-title">{{ prof.firstname}}</h5>
             <p class="card-text"><strong>Specialty:</strong> {{ prof.specialty }}</p>
             <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ prof.email }}">{{ prof.email }}</a></p>
             <p class="text-muted">Match Score: {{ '%.2f'|format(score * 100) }}%</p>
