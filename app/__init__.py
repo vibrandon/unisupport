@@ -17,6 +17,11 @@ login.login_view = 'login'
 from app import views, models
 from app.debug_utils import reset_db
 
+from app.feature_user_messaging import chat_bp
+app.register_blueprint(chat_bp)
+
+
+
 @app.shell_context_processor
 def make_shell_context():
     return dict(db=db, sa=sa, so=so, reset_db=reset_db)

@@ -65,6 +65,19 @@ class Professional(User):
 def load_user(id):
     return db.session.get(User, int(id))
 
+
+class Message(db.Model):
+    __tablename__ = 'messages'
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
+    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_messages')
+
+
 # @dataclass
 # class wellbeingProfile(db.Model):
 #     __tablename__ = 'wellbeingProfiles'
@@ -76,20 +89,6 @@ def load_user(id):
 #     #reportHistory: so.Mapped[str] = so.mapped_column(sa.String())
 #     recommendations: so.Mapped[list[str]] = so.mapped_column(sa.String())
 #     wellbeingStatus: so.Mapped[str] = so.mapped_column(sa.String(120))
-
-
-
-
-
-# id@dataclass
-# class Professional(db.Model):
-#     __tablename__ = 'professionals'
-#
-#     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-#     name: so.Mapped[str] = so.mapped_column(sa.String(128))
-#     specialty: so.Mapped[str] = so.mapped_column(sa.String(128))
-#     email: so.Mapped[str] = so.mapped_column(sa.String(120), unique=True)
-#     available: so.Mapped[bool] = so.mapped_column(default=True)
 
 
 # @dataclass

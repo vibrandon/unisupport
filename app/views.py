@@ -1,14 +1,13 @@
-from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
+from flask import render_template, redirect, url_for, flash, request
 from app import app
-from app.models import User, Professional, Student
-from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm
+from app.feature_user_messaging import chat_with_user, send_message
+from app.models import User, Professional, Student, Message
+from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
-import csv
-import io
-import numpy as np
+
 
 @app.route("/match/auto")
 @login_required
@@ -149,7 +148,17 @@ def view_user(user_id):
 @app.route("/chat")
 @login_required
 def chat():
-    return render_template('chat.html', title="Chat")
+    if current_user.type == 'student':
+        users = db.session.scalars(db.select(Professional)).all()
+    elif current_user.type == 'professional':
+        users = db.session.scalars(db.select(Student)).all()
+    else:
+        users = []
+
+    return render_template('chat.html', title="Chat", users=users)
+
+
+
 
 @app.route("/match")
 @login_required
