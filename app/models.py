@@ -60,8 +60,10 @@ class Professional(User):
         "polymorphic_identity": "professional",
     }
 
-class Admin(User):
-    __tablename__ = 'admins'
+# Flask-Login integration
+@login.user_loader
+def load_user(id):
+    return db.session.get(User, int(id))
 
 # @dataclass
 # class wellbeingProfile(db.Model):
@@ -77,10 +79,7 @@ class Admin(User):
 
 
 
-# Flask-Login integration
-@login.user_loader
-def load_user(id):
-    return db.session.get(User, int(id))
+
 
 # id@dataclass
 # class Professional(db.Model):
