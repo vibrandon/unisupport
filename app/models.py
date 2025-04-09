@@ -3,6 +3,7 @@ from typing import Optional
 import sqlalchemy as sa
 import sqlalchemy.orm as so
 from flask_login import UserMixin
+from sqlalchemy.orm import relationship
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login
 from dataclasses import dataclass
@@ -37,12 +38,14 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'User(id={self.id}, username={self.username}, email={self.email}, role={self.role})'
 
-@dataclass
+
 class Student(User):
     __tablename__ = 'students'
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
     degree: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
     address: so.Mapped[str] = so.mapped_column(sa.String(256),nullable=True)
+    surveys: so.Mapped[list['studentSurvey']] = relationship(back_populates='student', cascade='all, delete-orphan')
+    wellbeingProfile: so.Mapped['wellbeingProfile'] = relationship(back_populates='student')
 
     __mapper_args__ = {
         "polymorphic_identity": "student",
@@ -55,6 +58,7 @@ class Professional(User):
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
     workplace: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
     specialty: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
+    surveys: so.Mapped['professionalSurvey'] = relationship(back_populates='professional', cascade='all, delete-orphan')
 
     __mapper_args__ = {
         "polymorphic_identity": "professional",
@@ -62,20 +66,53 @@ class Professional(User):
 
 class Admin(User):
     __tablename__ = 'admins'
+    __mapper_args__ = {
+        "polymorphic_identity": "admin",
+    }
 
-# @dataclass
-# class wellbeingProfile(db.Model):
-#     __tablename__ = 'wellbeingProfiles'
-#
-#
-#     #Forigin Key
-#     studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.studentID'),primary_key=True)
-#
-#     #reportHistory: so.Mapped[str] = so.mapped_column(sa.String())
-#     recommendations: so.Mapped[list[str]] = so.mapped_column(sa.String())
-#     wellbeingStatus: so.Mapped[str] = so.mapped_column(sa.String(120))
+class wellbeingProfile(db.Model):
+    __tablename__ = 'wellbeingProfiles'
+    #Foreign Key
+    studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.studentID'),primary_key=True)
+    student: so.Mapped['Student'] = relationship(back_populates='wellbeingProfile')
+    #reportHistory: so.Mapped[str] = so.mapped_column(sa.String())
+    recommendations: so.Mapped[list[str]] = so.mapped_column(sa.String())
+    wellbeingStatus: so.Mapped[str] = so.mapped_column(sa.String(120))
 
+class survey(db.Model):
+    __tablename__ = 'surveys'
+    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    type: so.Mapped[str] = so.mapped_column(sa.String(50))
+    questions: so.Mapped[list[str]] = so.mapped_column(sa.String())
 
+    #implementation of getQuestions function
+    def getQuestions(self):
+        return self.questions
+
+    #polymorphism so that studentSurvey and professionalSurvey can inherit
+    __mapper_args__ = {
+        "polymorphic_identity": "surveys",
+        "polymorphic_on": type,
+    }
+
+class studentSurvey(db.Model):
+    __tablename__ = 'studentSurveys'
+    id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('surveys.id'), primary_key=True)
+    studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.id'), index=True)
+    student: so.Mapped['Student'] = relationship(back_populates='surveys')
+    #polymorphism to inherit from survey class
+    __mapper_args__ = {
+        "polymorphic_identity": "studentSurvey",
+    }
+
+class professionalSurvey(db.Model):
+    __tablename__ = 'professionalSurveys'
+    id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('surveys.id'), primary_key=True)
+    professionalID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('professionals.id'), index=True)
+    professional: so.Mapped['Professional'] = relationship(back_populates='surveys')
+    __mapper_args__ = {
+        "polymorphic_identity": "professionalSurvey",
+    }
 
 # Flask-Login integration
 @login.user_loader

@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
+from flask import render_template, redirect, url_for, flash, request
 from app import app
 from app.models import User, Professional, Student
 from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm
@@ -24,7 +24,7 @@ def auto_match():
     # Create a list of professional descriptions
     prof_profiles = [f"{p.specialty}" for p in professionals]
 
-    # Combine student and professional data for vectorizing
+    # Combine student and professional data for vectorisation
     profiles = [student_profile] + prof_profiles
 
     # Convert to vectors using TF-IDF
@@ -32,7 +32,7 @@ def auto_match():
     vectors = vectorizer.fit_transform(profiles)
 
     # Calculate cosine similarity between student and each professional
-    similarities = cosine_similarity(vectors[0:1], vectors[1:])[0]  # shape (n_profs,)
+    similarities = cosine_similarity(vectors[0:1], vectors[1:])[0]  # shape (n_profs)
 
     # Attach similarity scores
     scored_profs = list(zip(professionals, similarities))
