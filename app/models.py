@@ -73,7 +73,7 @@ class Admin(User):
 class wellbeingProfile(db.Model):
     __tablename__ = 'wellbeingProfiles'
     #Foreign Key
-    studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.studentID'),primary_key=True)
+    studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.id'),primary_key=True)
     student: so.Mapped['Student'] = relationship(back_populates='wellbeingProfile')
     #reportHistory: so.Mapped[str] = so.mapped_column(sa.String())
     recommendations: so.Mapped[list[str]] = so.mapped_column(sa.String())
