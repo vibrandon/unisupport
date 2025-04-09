@@ -1,0 +1,30 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Environment variables
+.env
+.flaskenv
+
+# SQLite database
+*.sqlite
+*.db
+
+# Uploaded files / temp data
+unisupport/app/data/uploads/
+unisupport/app/data/snippets.txt
+
+# Static or generated files
+*.log
+*.tmp
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git internal (in case of zip extraction)
+.git/
