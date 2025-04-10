@@ -83,6 +83,7 @@ class survey(db.Model):
     __tablename__ = 'surveys'
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     type: so.Mapped[str] = so.mapped_column(sa.String(50))
+    # change questions from a list into a dictionary with {question:answer,question:answer} pairs
     questions: so.Mapped[list[str]] = so.mapped_column(sa.String())
     #timestamp added
     timestamp: so.Mapped[Optional[datetime]] = so.mapped_column(sa.DateTime, default=datetime.now)

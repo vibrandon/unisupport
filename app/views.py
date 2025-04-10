@@ -1,4 +1,6 @@
+import sqlalchemy.exc
 from flask import render_template, redirect, url_for, flash, request
+from flask_sqlalchemy import SQLAlchemy
 from markupsafe import Markup
 
 from app import app
@@ -32,6 +34,22 @@ def student_survey():
         flash(f'Thank you for completing this week\'s wellbeing survey!'
                  f'\nHere is your reward code!'
                  f'\n{reward_code}', 'success')
+        #placeholder database integration
+        """
+        try:
+            survey = studentSurvey(
+                student=current_user,
+                studentID=current_user.id,
+                timestamp=datetime.now(),
+                questions={}
+            )
+            #change questions from a list into a dictionary with {question:answer,question:answer} pairs
+            db.session.add(survey)
+            db.session.commit()
+        except sqlalchemy.exc.SQLAlchemyError as e:
+            db.session.rollback()
+            flash(f"{e} occurred","danger")
+        """
         return redirect(url_for('home'))
 
     return render_template('generic_form.html', title="Student Wellbeing Survey", form=form)
@@ -51,6 +69,22 @@ def professional_survey():
         flash(f'Thank you for completing this week\'s wellbeing survey!'
                  f'\nHere is your reward code!'
                  f'\n{reward_code}', 'success')
+        # placeholder database integration
+        """
+        try:
+            survey = professionalSurvey(
+                professional=current_user,
+                professional=current_user.id,
+                timestamp=datetime.now(),
+                questions={}
+            )
+            #change questions from a list into a dictionary with {question:answer,question:answer} pairs
+            db.session.add(survey)
+            db.session.commit()
+        except sqlalchemy.exc.SQLAlchemyError as e:
+            db.session.rollback()
+            flash(f"{e} occurred","danger")
+        """
         return redirect(url_for('home'))
 
     return render_template('generic_form.html', title="Student-Professional Survey", form=form)
