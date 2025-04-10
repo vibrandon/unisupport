@@ -1,4 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
+from markupsafe import Markup
+
 from app import app
 from app.models import User, Professional, Student, studentSurvey, survey
 from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm, NotRealSurvey
@@ -78,12 +80,15 @@ def popup_survey():
     if weekly_survey_complete is None:
         sunday = date_today.weekday() == 6
 
+        #added markup to fill in placeholder for link. Also changed {{ message }} to {{ message | safe }} in "base.html" to allow this to work
         if sunday:
-            message = ("Your weekly wellbeing survey is now available!"
-                       " Complete it Here:(placeholder) for a code for a free food/drink item")
+            message = (Markup("Your weekly wellbeing survey is now available!\n"
+                             f'Complete it Here: <a href="/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item'))
         else:
-            message = ("Don't forget to complete your weekly wellbeing survey!"
-                       " Complete it Here:(placeholder) to claim your free food/drink item")
+            # message = ("Don't forget to complete your weekly wellbeing survey!"
+            #            f" Complete it Here:({url_for('student_survey')}) to claim your free food/drink item")
+            message = Markup("Your weekly wellbeing survey is now available!\n"
+                             f'Complete it Here: <a href="/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item')
 
         flash(f"{message}", "primary")
 
