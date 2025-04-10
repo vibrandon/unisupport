@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
-from app.models import User, Professional, Student
-from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm
+from app.models import User, Professional, Student, studentSurvey, survey
+from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm, NotRealSurvey
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
 from app import db
@@ -9,6 +9,89 @@ from urllib.parse import urlsplit
 import csv
 import io
 import numpy as np
+# NEW IMPORTS
+import random
+from datetime import date, datetime, timedelta
+
+
+
+# Survey Route  # RANDOM IMPORTED
+@app.route('/student_survey', methods=['GET', 'POST'])
+@login_required
+def student_survey():
+    if current_user.type != 'student':
+        flash("students only.", "danger")
+        return redirect(url_for('home'))
+
+    form = NotRealSurvey()  # Placeholder survey, thus db integration not added
+    if form.validate_on_submit():
+        # Reward token, Incentive for the Student to complete the survey
+        reward_code = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=6))
+        flash(f'Thank you for completing this week\'s wellbeing survey!'
+                 f'\nHere is your reward code!'
+                 f'\n{reward_code}', 'success')
+        return redirect(url_for('home'))
+
+    return render_template('generic_form.html', title="Student Wellbeing Survey", form=form)
+
+
+@app.route('/professional_survey', methods=['GET', 'POST'])
+@login_required
+def professional_survey():
+    if current_user.type != 'professional':
+        flash("Professionals only.", "danger")
+        return redirect(url_for('home'))
+
+    form = NotRealSurvey()
+    if form.validate_on_submit():
+        # Reward token
+        reward_code = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=6))
+        flash(f'Thank you for completing this week\'s wellbeing survey!'
+                 f'\nHere is your reward code!'
+                 f'\n{reward_code}', 'success')
+        return redirect(url_for('home'))
+
+    return render_template('generic_form.html', title="Student-Professional Survey", form=form)
+
+
+# This function handles a flash message to notify the user every sunday, when the weekly survey is released
+# Else reminds the user to complete the survey throughout the week on every page.
+# Note - the above reminder will always be present until db integration added to the student_survey() route
+def popup_survey():
+    if not current_user.is_authenticated or current_user.type != 'student':
+        return  # exit function if 'student' not logged in
+    # check if today is sunday
+
+    if request.endpoint in ['static', 'login', 'student_survey']:
+        return  # prevents popup appearing during static requests, login, or when student is completing survey
+
+    # Note new import
+    date_today = date.today()
+
+    days_since_sunday = date_today.weekday() + 1
+    current_week_start_date = date_today - timedelta(days=days_since_sunday)
+
+    # Has the student completed the survey, on or after the start of the current week's sunday
+    q = sa.select(studentSurvey).where(studentSurvey.studentID == current_user.id).where(sa.func.date(studentSurvey.timestamp) >= current_week_start_date)
+    weekly_survey_complete = db.session.scalar(q)
+
+    if weekly_survey_complete is None:
+        sunday = date_today.weekday() == 6
+
+        if sunday:
+            message = ("Your weekly wellbeing survey is now available!"
+                       " Complete it Here:(placeholder) for a code for a free food/drink item")
+        else:
+            message = ("Don't forget to complete your weekly wellbeing survey!"
+                       " Complete it Here:(placeholder) to claim your free food/drink item")
+
+        flash(f"{message}", "primary")
+
+@app.before_request  # note this popup appears on every page for now (10/04/2025)
+def check_survey_popup():
+    popup_survey()
+# note 2: this popup has a minor bug where it still appears when student logs out, but refreshing removes the popup
+
 
 @app.route("/match/auto")
 @login_required
