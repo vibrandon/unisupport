@@ -84,6 +84,8 @@ class survey(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     type: so.Mapped[str] = so.mapped_column(sa.String(50))
     questions: so.Mapped[list[str]] = so.mapped_column(sa.String())
+    #timestamp added
+    timestamp: so.Mapped[Optional[datetime]] = so.mapped_column(sa.DateTime, default=datetime.now)
 
     #implementation of getQuestions function
     def getQuestions(self):
@@ -95,7 +97,8 @@ class survey(db.Model):
         "polymorphic_on": type,
     }
 
-class studentSurvey(db.Model):
+# fixed inheritance: class studentSurvey(db.Model):
+class studentSurvey(survey):
     __tablename__ = 'studentSurveys'
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('surveys.id'), primary_key=True)
     studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.id'), index=True)
@@ -105,7 +108,7 @@ class studentSurvey(db.Model):
         "polymorphic_identity": "studentSurvey",
     }
 
-class professionalSurvey(db.Model):
+class professionalSurvey(survey):
     __tablename__ = 'professionalSurveys'
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('surveys.id'), primary_key=True)
     professionalID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('professionals.id'), index=True)
