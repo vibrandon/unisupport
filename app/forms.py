@@ -1,7 +1,7 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField
-from wtforms.fields.choices import SelectField
+from wtforms.fields.choices import SelectField, RadioField
 from wtforms.fields.numeric import IntegerField
 from wtforms.fields.simple import TextAreaField
 from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email, Optional
@@ -70,8 +70,6 @@ class UpdateAccountForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     submit = SubmitField("Update")
 
-
-
 class StudentUpdateForm(FlaskForm):
     degree = StringField("Degree", validators=[Optional()])
     address = StringField("Address", validators=[Optional()])
@@ -82,3 +80,9 @@ class ProfessionalUpdateForm(FlaskForm):
     specialty = StringField("Specialty", validators=[Optional()])
     submit = SubmitField("Update Professional Info")
 
+
+class NotRealSurvey(FlaskForm):  # placeholder
+    question_1 = SelectField("question_1", choices=[('1', '1'), ('2', '2'), ('3', '3')], validators=[DataRequired()])
+    question_2 = RadioField("question_1", choices=[('1', '1'), ('2', '2'), ('3', '3')], validators=[DataRequired()])
+    question_3 = SelectField("question_1", choices=[('1', '1'), ('2', '2'), ('3', '3')], validators=[DataRequired()])
+    submit = SubmitField("Submit")
