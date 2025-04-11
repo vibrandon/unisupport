@@ -41,7 +41,7 @@ def autoMatch():
     scored_profs.sort(key=lambda x: x[1], reverse=True)
 
     return render_template("auto_candidates.html", title="Matched Professionals", scored_profs=scored_profs)
-@match_bp.route("/match")
+@match_bp.route("/")
 @login_required
 def match():
     return render_template('match.html', title="Match")

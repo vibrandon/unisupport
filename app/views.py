@@ -21,17 +21,6 @@ from datetime import date, timedelta
 def home():
     return render_template('home.html', title="UniSupport")
 
-
-
-
-@app.route("/professionals")
-@login_required
-def view_professionals():
-    from app.models import Professional  # if not already imported
-    professionals = db.session.scalars(db.select(Professional)).all()
-    return render_template("professionals.html", title="Professionals", professionals=professionals)
-
-
 # =====================
 # ❗ Error Handlers
 # =====================
