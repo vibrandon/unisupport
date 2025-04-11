@@ -13,14 +13,32 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 login = LoginManager(app)
 login.login_view = 'login'
-from app.match import bp as bp_match 
-app.register_blueprint(bp_match,url_prefix='/match')
+
+
 
 from app import views, models
 from app.debug_utils import reset_db
 
-from app.feature_user_messaging import chat_bp
-app.register_blueprint(chat_bp)
+
+from app.userMessaging.routes import chat_bp
+app.register_blueprint(chat_bp,url_prefix="/chat")
+
+from app.auth.routes import auth_bp
+app.register_blueprint(auth_bp,url_prefix="/auth")
+
+from app.admin import admin_bp
+app.register_blueprint(admin_bp,url_prefix="/admin")
+
+from app.match.routes import match_bp
+app.register_blueprint(match_bp,url_prefix="/match")
+
+from app.survey import survey_bp
+app.register_blueprint(survey_bp, url_prefix="/survey")
+
+from app.account.routes import account_bp
+app.register_blueprint(account_bp, url_prefix="/account")
+
+
 
 
 

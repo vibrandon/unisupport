@@ -36,7 +36,7 @@ def password_policy(form, field):
 class ChangePasswordForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     new_password = PasswordField('New Password', validators=[DataRequired(), password_policy])
-    confirm = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password', message="Passwords must match")])
+    confirm = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password', message="Passwords must templates")])
     submit = SubmitField('Change Password')
 
     def validate_password(form, field):

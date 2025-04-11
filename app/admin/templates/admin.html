@@ -28,7 +28,7 @@
           </thead>
           <tbody>
             {% for user in user_lst %}
-            <tr onclick="location.href='{{ url_for('view_user', user_id=user.id) }}'" style="cursor: pointer;">
+            <tr onclick="location.href='{{ url_for('admin_bp.view_user', user_id=user.id) }}'" style="cursor: pointer;">
               <td>{{ user.id }}</td>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>

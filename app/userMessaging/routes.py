@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from app import db
 from app.models import User, Message
 
-chat_bp = Blueprint('chat_bp', __name__)
+chat_bp = Blueprint('chat_bp', __name__, template_folder="templates")
 
 @chat_bp.route("/chat/<int:user_id>", methods=["GET", "POST"])
 @login_required

@@ -13,7 +13,6 @@ __pycache__/
 # Uploaded files / temp data
 unisupport/app/data/uploads/
 unisupport/app/data/snippets.txt
-unisupport/app/debug_utils.py
 
 # Static or generated files
 *.log

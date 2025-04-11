@@ -5,7 +5,7 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="SW1-ENV" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="flask" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
@@ -13,6 +13,13 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/app/templates" />
+        <option value="$MODULE_DIR$/app/auth/templates" />
+        <option value="$MODULE_DIR$/app/match/templates" />
+        <option value="$MODULE_DIR$/app/userMessaging/templates" />
+        <option value="$MODULE_DIR$/app/survey/templates" />
+        <option value="$MODULE_DIR$/app/chatbot/templates" />
+        <option value="$MODULE_DIR$/app/admin/templates" />
+        <option value="$MODULE_DIR$/app/account/templates" />
       </list>
     </option>
   </component>

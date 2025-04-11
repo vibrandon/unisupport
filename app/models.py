@@ -24,6 +24,11 @@ class User(UserMixin, db.Model):
     password_hash: so.Mapped[Optional[str]] = so.mapped_column(sa.String(256))
     type: so.Mapped[str] = so.mapped_column(sa.String(50))  # discriminator column
 
+    sent_messages = db.relationship('Message', foreign_keys='Message.sender_id', cascade='all, delete-orphan',
+                                    backref='sender')
+    received_messages = db.relationship('Message', foreign_keys='Message.receiver_id', cascade='all, delete-orphan',
+                                        backref='receiver')
+
     __mapper_args__ = {
         "polymorphic_identity": "user",
         "polymorphic_on": type,
@@ -73,13 +78,11 @@ def load_user(id):
 class Message(db.Model):
     __tablename__ = 'messages'
     id = db.Column(db.Integer, primary_key=True)
-    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     content = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
-    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_messages')
-    receiver = db.relationship('User', foreign_keys=[receiver_id], backref='received_messages')
 
 
 @dataclass()
@@ -90,7 +93,7 @@ class Chatbot(db.Model):
     message: so.Mapped[str] = so.mapped_column(sa.Text)
     ChatbotMessage: so.Mapped[bool] = so.mapped_column(default=False)
     TimeOfMessage: so.Mapped[datetime] = so.mapped_column(sa.DateTime,default=sa.func.now())
-    user: so.Mapped['User'] = relationship(back_populates='MessagesWithChatbot')
+    #user: so.Mapped['User'] = relationship(back_populates='MessagesWithChatbot')
 
     def __repr__(self):
         return f'Chatbot(id={self.id}, user_id={self.user_id}, ChatbotMessage={self.ChatbotMessage})'
@@ -154,26 +157,6 @@ class professionalSurvey(survey):
 def load_user(id):
     return db.session.get(User, int(id))
 
-# id@dataclass
-# class Professional(db.Model):
-#     __tablename__ = 'professionals'
-#
-#     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-#     name: so.Mapped[str] = so.mapped_column(sa.String(128))
-#     specialty: so.Mapped[str] = so.mapped_column(sa.String(128))
-#     email: so.Mapped[str] = so.mapped_column(sa.String(120), unique=True)
-#     available: so.Mapped[bool] = so.mapped_column(default=True)
-
-
-# @dataclass
-# class Message(db.Model):
-#     __tablename__ = 'messages'
-#
-#     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-#     sender_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'))
-#     recipient_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'))
-#     content: so.Mapped[str] = so.mapped_column(sa.Text)
-#     #timestamp: so.Mapped[sa.DateTime] = so.mapped_column(default=sa.func.now())
 
 
 
