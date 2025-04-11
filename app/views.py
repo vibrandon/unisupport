@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
+from flask import render_template, redirect, url_for, jsonify,flash, request, send_file, send_from_directory
 from app import app
 from app.models import User, Professional, Student
 from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm
@@ -244,6 +244,10 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+@app.route("/avail")
+def avail():
+    result = {'status_code': 200,'data':"hello"}
+    return jsonify(result)
 # =====================
 # ❗ Error Handlers
 # =====================

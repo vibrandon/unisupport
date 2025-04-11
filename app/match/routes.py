@@ -4,12 +4,19 @@ from app.models import User, Professional, Student
 from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
+from app.DBAccessor import DBAccessor
 from app import db
+from flask import g
 
 
 # =====================
 #  Match
 # =====================
+@bp.route("")
+@login_required
+def match():
+    return render_template('match/match.html', title="Match")
+
 @bp.route("/auto")
 @login_required
 def autoMatch():
@@ -40,11 +47,8 @@ def autoMatch():
     # Sort by similarity
     scored_profs.sort(key=lambda x: x[1], reverse=True)
 
-    return render_template("/match/auto_candidates.html", title="Matched Professionals", scored_profs=scored_profs)
-@bp.route("")
-@login_required
-def match():
-    return render_template('match/match.html', title="Match")
+    chooseForm = ChooseForm()
+    return render_template("/match/auto_candidates.html", title="Matched Professionals", scored_profs=scored_profs,chooseForm=chooseForm)
 
 @bp.route("/manual")
 @login_required
@@ -54,7 +58,11 @@ def manualMatch():
     chooseForm = ChooseForm()
     return render_template("/match/manual_candidates.html", title="Professionals", professionals=professionals,chooseForm=chooseForm)
 @bp.route("/matchProf",methods=['POST'])
+@login_required
 def matchProf():
+   sid = current_user.get_id()
    form = ChooseForm()
-   print(form.choice)
-   return render_template('/match/notification.html', title="Matching Notification")
+   dbAccessor = DBAccessor()
+   dbAccessor.match_professional(sid,form.choice.data)
+   user = db.session.scalar(db.select(Professional).where(Professional.id== form.choice.data))
+   return render_template('/match/notification.html', title="Matching Notification",prof=user)

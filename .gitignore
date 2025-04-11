@@ -11,13 +11,12 @@ venv/
 
 *.pyc
 __pycache__/
-
+tests/*.Identifier
 instance/
 
 .pytest_cache/
 .coverage
 htmlcov/
-
 dist/
 build/
 *.egg-info/

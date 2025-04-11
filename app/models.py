@@ -43,7 +43,7 @@ class Student(User):
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
     degree: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
     address: so.Mapped[str] = so.mapped_column(sa.String(256),nullable=True)
-
+    pid: so.Mapped[int] = so.mapped_column(nullable=True)
     __mapper_args__ = {
         "polymorphic_identity": "student",
     }
