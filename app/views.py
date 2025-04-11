@@ -1,5 +1,11 @@
-from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory
+import sqlalchemy.exc
+from flask import render_template, redirect, url_for, flash, request
+from flask_sqlalchemy import SQLAlchemy
+from markupsafe import Markup
+
 from app import app
+from app.models import User, Professional, Student, studentSurvey, survey
+from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, UpdateAccountForm, NotRealSurvey
 from app.feature_user_messaging import chat_with_user, send_message
 from app.models import User, Professional, Student, Message
 from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm, ChatbotForm
@@ -7,7 +13,159 @@ from flask_login import current_user, login_user, logout_user, login_required, f
 import sqlalchemy as sa
 from app import db
 from urllib.parse import urlsplit
+import csv
+import io
 import numpy as np
+# NEW IMPORTS
+import random
+from datetime import date, datetime, timedelta
+
+
+
+# Survey Route  # RANDOM IMPORTED
+@app.route('/student_survey', methods=['GET', 'POST'])
+@login_required
+def student_survey():
+    if current_user.type != 'student':
+        flash("students only.", "danger")
+        return redirect(url_for('home'))
+
+    form = NotRealSurvey()  # Placeholder survey, thus db integration not added
+    if form.validate_on_submit():
+        # Reward token, Incentive for the Student to complete the survey
+        reward_code = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=6))
+        flash(f'Thank you for completing this week\'s wellbeing survey!'
+                 f'\nHere is your reward code!'
+                 f'\n{reward_code}', 'success')
+        #placeholder database integration
+        """
+        try:
+            survey = studentSurvey(
+                student=current_user,
+                studentID=current_user.id,
+                timestamp=datetime.now(),
+                questions={}
+            )
+            #change questions from a list into a dictionary with {question:answer,question:answer} pairs
+            db.session.add(survey)
+            db.session.commit()
+        except sqlalchemy.exc.SQLAlchemyError as e:
+            db.session.rollback()
+            flash(f"{e} occurred","danger")
+        """
+        return redirect(url_for('home'))
+
+    return render_template('generic_form.html', title="Student Wellbeing Survey", form=form)
+
+
+@app.route('/professional_survey', methods=['GET', 'POST'])
+@login_required
+def professional_survey():
+    if current_user.type != 'professional':
+        flash("Professionals only.", "danger")
+        return redirect(url_for('home'))
+
+    form = NotRealSurvey()
+    if form.validate_on_submit():
+        # Reward token
+        reward_code = ''.join(random.choices('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', k=6))
+        flash(f'Thank you for completing this week\'s wellbeing survey!'
+                 f'\nHere is your reward code!'
+                 f'\n{reward_code}', 'success')
+        # placeholder database integration
+        """
+        try:
+            survey = professionalSurvey(
+                professional=current_user,
+                professional=current_user.id,
+                timestamp=datetime.now(),
+                questions={}
+            )
+            #change questions from a list into a dictionary with {question:answer,question:answer} pairs
+            db.session.add(survey)
+            db.session.commit()
+        except sqlalchemy.exc.SQLAlchemyError as e:
+            db.session.rollback()
+            flash(f"{e} occurred","danger")
+        """
+        return redirect(url_for('home'))
+
+    return render_template('generic_form.html', title="Student-Professional Survey", form=form)
+
+
+# This function handles a flash message to notify the user every sunday, when the weekly survey is released
+# Else reminds the user to complete the survey throughout the week on every page.
+# Note - the above reminder will always be present until db integration added to the student_survey() route
+def popup_survey():
+    if not current_user.is_authenticated or current_user.type != 'student':
+        return  # exit function if 'student' not logged in
+    # check if today is sunday
+
+    if request.endpoint in ['static', 'login', 'student_survey']:
+        return  # prevents popup appearing during static requests, login, or when student is completing survey
+
+    # Note new import
+    date_today = date.today()
+
+    days_since_sunday = date_today.weekday() + 1
+    current_week_start_date = date_today - timedelta(days=days_since_sunday)
+
+    # Has the student completed the survey, on or after the start of the current week's sunday
+    q = sa.select(studentSurvey).where(studentSurvey.studentID == current_user.id).where(sa.func.date(studentSurvey.timestamp) >= current_week_start_date)
+    weekly_survey_complete = db.session.scalar(q)
+
+    if weekly_survey_complete is None:
+        sunday = date_today.weekday() == 6
+
+        #added markup to fill in placeholder for link. Also changed {{ message }} to {{ message | safe }} in "base.html" to allow this to work
+        if sunday:
+            message = (Markup("Your weekly wellbeing survey is now available!\n"
+                             f'Complete it Here: <a href="/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item'))
+        else:
+            # message = ("Don't forget to complete your weekly wellbeing survey!"
+            #            f" Complete it Here:({url_for('student_survey')}) to claim your free food/drink item")
+            message = Markup("Your weekly wellbeing survey is now available!\n"
+                             f'Complete it Here: <a href="/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item')
+
+        flash(f"{message}", "primary")
+
+@app.before_request  # note this popup appears on every page for now (10/04/2025)
+def check_survey_popup():
+    popup_survey()
+# note 2: this popup has a minor bug where it still appears when student logs out, but refreshing removes the popup
+
+
+@app.route("/match/auto")
+@login_required
+def auto_match():
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import cosine_similarity
+    # Example student profile (can come from a form or current_user preferences)
+    student_profile = "stress anxiety academic support motivation"
+
+    # Load all professionals
+    professionals = db.session.scalars(db.select(Professional)).all()
+
+    # Create a list of professional descriptions
+    prof_profiles = [f"{p.specialty}" for p in professionals]
+
+    # Combine student and professional data for vectorisation
+    profiles = [student_profile] + prof_profiles
+
+    # Convert to vectors using TF-IDF
+    vectorizer = TfidfVectorizer()
+    vectors = vectorizer.fit_transform(profiles)
+
+    # Calculate cosine similarity between student and each professional
+    similarities = cosine_similarity(vectors[0:1], vectors[1:])[0]  # shape (n_profs)
+
+    # Attach similarity scores
+    scored_profs = list(zip(professionals, similarities))
+
+    # Sort by similarity
+    scored_profs.sort(key=lambda x: x[1], reverse=True)
+
+    return render_template("match_results.html", title="Matched Professionals", scored_profs=scored_profs)
 
 
 # =====================
@@ -125,8 +283,17 @@ def chat():
 
     return render_template('chat.html', title="Chat", users=users)
 
+@app.route("/match")
+@login_required
+def match():
+    return render_template('match.html', title="Match")
 
-
+@app.route("/professionals")
+@login_required
+def view_professionals():
+    from app.models import Professional  # if not already imported
+    professionals = db.session.scalars(db.select(Professional)).all()
+    return render_template("professionals.html", title="Professionals", professionals=professionals)
 
 
 # =====================
