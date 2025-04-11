@@ -13,6 +13,8 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 login = LoginManager(app)
 login.login_view = 'login'
+from app.match import bp as bp_match 
+app.register_blueprint(bp_match,url_prefix='/match')
 
 from app import views, models
 from app.debug_utils import reset_db

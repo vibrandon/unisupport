@@ -10,12 +10,18 @@
         <div class="col">
             <div class="card shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">{{ prof.name }}</h5>
+                    <h5 class="card-title">{{ prof.firstname}}</h5>
                     <p class="card-text"><strong>Specialty:</strong> {{ prof.specialty }}</p>
                     <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ prof.email }}">{{ prof.email }}</a></p>
-                    <span class="badge {% if prof.available %}bg-success{% else %}bg-secondary{% endif %}">
-                        {{ "Available" if prof.available else "Unavailable" }}
-                    </span>
+                    <!-- <span class="badge bg-success">
+                         "Available" 
+                    </span> -->
+                    <form action="{{ url_for('match.matchProf') }}" method="post">
+                        {{ chooseForm.csrf_token() }}
+                        {{ chooseForm.choice(value=prof.id) }}
+                        <button class="btn btn-sm btn-success">choose</button>
+                        <!-- <button class="btn btn-sm">choose</button> -->
+                    </form>
                 </div>
             </div>
         </div>
