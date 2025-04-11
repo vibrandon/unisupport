@@ -3,9 +3,9 @@ from flask_login import login_required, current_user
 from app import db
 from app.models import User, Message
 
-chat_bp = Blueprint('chat_bp', __name__, template_folder="templates")
+user_msg_bp = Blueprint("user_msg_bp", __name__, url_prefix="/chat/messages",template_folder="templates")
 
-@chat_bp.route("/chat/<int:user_id>", methods=["GET", "POST"])
+@user_msg_bp.route("/<int:user_id>", methods=["GET", "POST"])
 @login_required
 def chat_with_user(user_id):
     chat_partner = db.session.get(User, user_id)
@@ -21,7 +21,7 @@ def chat_with_user(user_id):
     return render_template("chatroom.html", title="Chat", messages=messages, chat_partner=chat_partner)
 
 
-@chat_bp.route("/send_message", methods=["POST"])
+@user_msg_bp.route("/send_message", methods=["POST"])
 @login_required
 def send_message():
     content = request.form.get("content")

@@ -22,17 +22,6 @@ def home():
     return render_template('home.html', title="UniSupport")
 
 
-@app.route("/chat")
-@login_required
-def chat():
-    if current_user.type == 'student':
-        users = db.session.scalars(db.select(Professional)).all()
-    elif current_user.type == 'professional':
-        users = db.session.scalars(db.select(Student)).all()
-    else:
-        users = []
-
-    return render_template('chat.html', title="Chat", users=users)
 
 
 @app.route("/professionals")

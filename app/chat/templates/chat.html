@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4">💬 Chat Support</h1>
+
+    <!-- Suggestion to use AI Chat -->
+    <div class="alert alert-info d-flex justify-content-between align-items-center">
+        <div>
+            <strong>💡 Want to speak to our AI instead?</strong><br>
+            Get instant, confidential support 24/7 with our AI chatbot.
+        </div>
+        <a href="{{ url_for('chatbot_bp.chatbot') }}" class="btn btn-outline-primary">
+            <i class="bi bi-robot"></i> Talk to AI
+        </a>
+    </div>
+
+    <!-- One-on-One Chat Section -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <h5 class="card-title">👥 Start a 1-on-1 Chat</h5>
+            <p class="text-muted">Choose a user to start messaging with:</p>
+
+            {% if users %}
+              <ul class="list-group">
+                {% for user in users %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>{{ user.firstname }} {{ user.lastname }}</strong>
+                    <br><small class="text-muted">{{ user.email }}</small>
+                  </div>
+                  <a href="{{ url_for('user_msg_bp.chat_with_user', user_id=user.id) }}" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-chat-dots"></i> Chat
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted">No available users to chat with right now.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
