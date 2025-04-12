@@ -3,13 +3,13 @@
 <div class="container my-5">
     <h1 class="mb-4">👨‍⚕️ Congratulation Matching Succeeded</h1>
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        {% if prof %}
+    {% if professionals %}
         <div class="col">
             <div class="card shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">{{ prof.firstname}}</h5>
-                    <p class="card-text"><strong>Specialty:</strong> {{ prof.specialty }}</p>
-                    <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ prof.email }}">{{ prof.email }}</a></p>
+                    <h5 class="card-title">{{ professionals.firstname}}</h5>
+                    <p class="card-text"><strong>Specialty:</strong> {{ professionals.specialty }}</p>
+                    <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ professionals.email }}">{{ professionals.email }}</a></p>
                 </div>
             </div>
         </div>

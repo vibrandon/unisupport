@@ -13,7 +13,7 @@
                 <div class="card-body">
                     <h5 class="card-title">🌿 Student Wellbeing</h5>
                     <p class="card-text">Access personalized mental health support with AI chat, professional matching, and wellbeing surveys.</p>
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">Get Support</a>
+                    <a href="{{ url_for('auth_bp.login') }}" class="btn btn-outline-primary">Get Support</a>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                 <div class="card-body">
                     <h5 class="card-title">📚 Academic Adjustments</h5>
                     <p class="card-text">Easily request deadline extensions or adjustments, linked directly to your wellbeing data for informed decisions.</p>
-                    <a href="{{ url_for('login') }}" class="btn btn-outline-primary">Request Support</a>
+                    <a href="{{ url_for('auth_bp.login') }}" class="btn btn-outline-primary">Request Support</a>
                 </div>
             </div>
         </div>
@@ -34,7 +34,7 @@
                 <div class="card-body">
                     <h5 class="card-title">🤝 Professional Matching</h5>
                     <p class="card-text">Automatically or manually match with qualified professionals based on your needs and preferences.</p>
-                    <a href="{{ url_for('match.match') }}" class="btn btn-outline-primary">Match With a Professional</a>
+                    <a href="{{ url_for('match_bp.match') }}" class="btn btn-outline-primary">Match With a Professional</a>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <h5 class="card-title">💬 AI Chatbot & Messaging</h5>
                     <p class="card-text">Chat anytime with our AI assistant or connect with staff and peers in moderated chatrooms.</p>
-                    <a href="{{ url_for('chat') }}" class="btn btn-outline-primary">Chat With Us</a>
+                    <a href="{{ url_for('chat_bp.chat') }}" class="btn btn-outline-primary">Chat With Us</a>
                 </div>
             </div>
         </div>
@@ -51,7 +51,7 @@
 
     <div class="text-center mt-5">
         {% if current_user.is_authenticated %}
-            <a href="{{ url_for('account') }}" class="btn btn-lg btn-success">Go to My Dashboard</a>
+            <a href="{{ url_for('account_bp.account') }}" class="btn btn-lg btn-success">Go to My Dashboard</a>
         {% endif %}
     </div>
 </div>

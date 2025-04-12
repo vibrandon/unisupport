@@ -1,135 +1,65 @@
-def reset_db():
-    from app import db
-    from app.models import Student, Professional, User
+from app import db
+from app.models import (
+    User, Student, Professional, Message, Admin,
+    studentSurvey, professionalSurvey, wellbeingProfile
+)
+from werkzeug.security import generate_password_hash
 
-    # 🔥 Reset database
+def reset_db():
     db.drop_all()
     db.create_all()
 
-    # 👨‍⚕️ Professionals
-    p1 = Professional(
-        username='drsmith',
-        firstname='John',
-        lastname='Smith',
-        email='john.smith@unisupport.com',
-        phoneNumber='1234567890',
-        workplace='UoB Counseling Center',
-        specialty='Anxiety, Depression, Stress',
-        role='professional',
-        type='professional'
+    admin = Admin(
+        username="admin",
+        firstname="Admin",
+        lastname="User",
+        email="admin@unisupport.com",
+        role="Admin",
+        type="admin"
     )
-    p1.set_password('smithpass')
-
-    p2 = Professional(
-        username='drjane',
-        firstname='Jane',
-        lastname='Doe',
-        email='jane.doe@unisupport.com',
-        phoneNumber='0987654321',
-        workplace='Health Services',
-        specialty='Time Management, Burnout',
-        role='professional',
-        type='professional'
-    )
-    p2.set_password('janepass')
-
-    p3 = Professional(
-        username='drlee',
-        firstname='Daniel',
-        lastname='Lee',
-        email='daniel.lee@unisupport.com',
-        phoneNumber='9998887777',
-        workplace='Student Wellness',
-        specialty='Academic Stress, Life Balance',
-        role='professional',
-        type='professional'
-    )
-    p3.set_password('leepass')
-
-    db.session.add_all([p1, p2, p3])
-    db.session.commit()
-
-    # 🎓 Students
-    s1 = Student(
-        username='alice',
-        firstname='Alice',
-        lastname='Green',
-        email='alice@student.com',
-        phoneNumber='1112223333',
-        address='Dorm 12A',
-        degree='Computer Science',
-        role='student',
-        type='student'
-    )
-    s1.set_password('alicepw')
-
-    s2 = Student(
-        username='bob',
-        firstname='Bob',
-        lastname='Brown',
-        email='bob@student.com',
-        phoneNumber='2223334444',
-        address='Dorm 14B',
-        degree='Psychology',
-        role='student',
-        type='student'
-    )
-    s2.set_password('bobpw')
-
-    s3 = Student(
-        username='charlie',
-        firstname='Charlie',
-        lastname='Black',
-        email='charlie@student.com',
-        phoneNumber='3334445555',
-        address='Dorm 16C',
-        degree='Engineering',
-        role='student',
-        type='student'
-    )
-    s3.set_password('charliepw')
-
-    s4 = Student(
-        username='diana',
-        firstname='Diana',
-        lastname='White',
-        email='diana@student.com',
-        phoneNumber='4445556666',
-        address='Dorm 18A',
-        degree='Mathematics',
-        role='student',
-        type='student'
-    )
-    s4.set_password('dianapw')
-
-    s5 = Student(
-        username='ethan',
-        firstname='Ethan',
-        lastname='Gray',
-        email='ethan@student.com',
-        phoneNumber='5556667777',
-        address='Dorm 20B',
-        degree='Economics',
-        role='student',
-        type='student'
-    )
-    s5.set_password('ethanpw')
-
-    db.session.add_all([s1, s2, s3, s4, s5])
-    db.session.commit()
-
-
-    admin = User(
-        username='admin',
-        firstname='Admin',
-        lastname='User',
-        email='admin@unisupport.com',
-        role='Admin',
-        type='user'  # base user, not student/professional
-    )
-    admin.set_password('adminpass')
-
+    admin.set_password("adminpass")
     db.session.add(admin)
+
+    professionals = []
+    for i in range(5):
+        p = Professional(
+            username=f"pro{i+1}",
+            firstname=f"Pro{i+1}",
+            lastname="Smith",
+            email=f"pro{i+1}@unisupport.com",
+            phoneNumber=f"000000000{i+1}",
+            workplace=f"Workplace {i+1}",
+            specialty="Stress Management",
+            role="professional",
+            type="professional"
+        )
+        p.set_password("password")
+        professionals.append(p)
+    db.session.add_all(professionals)
+
+    students = []
+    for i in range(10):
+        s = Student(
+            username=f"student{i+1}",
+            firstname=f"Student{i+1}",
+            lastname="Doe",
+            email=f"student{i+1}@student.com",
+            phoneNumber=f"111111111{i+1}",
+            address=f"Dorm {i+1}A",
+            degree="Computer Science",
+            role="student",
+            type="student"
+        )
+        s.set_password("password")
+        students.append(s)
+    db.session.add_all(students)
     db.session.commit()
 
-    print("✅ Database reset complete — professionals and students seeded.")
+    # Example message between first student and professional
+    db.session.add_all([
+        Message(sender_id=students[0].id, receiver_id=professionals[0].id, content="Hi, I need help."),
+        Message(sender_id=professionals[0].id, receiver_id=students[0].id, content="Of course! I'm here to help.")
+    ])
+
+    db.session.commit()
+    print("✅ Database has been reset and seeded.")
