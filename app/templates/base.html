@@ -36,7 +36,7 @@
                 {% endif %}
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('chat') }}"><i class="bi bi-chat-dots"></i> Chat messages </a>
+                    <a class="nav-link" href="{{ url_for('chat_bp.chat') }}"><i class="bi bi-chat-dots"></i> Chat messages </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('match_bp.match') }}"><i class="bi bi-person-check"></i> Match</a>

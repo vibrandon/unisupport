@@ -9,7 +9,7 @@ from app import db, auth_bp
 admin_bp = Blueprint("admin_bp", __name__, template_folder="templates")
 
 
-@admin_bp.route("/admin")
+@admin_bp.route("/")
 @login_required
 def admin():
     if current_user.role != "Admin":
@@ -19,7 +19,7 @@ def admin():
     user_lst = db.session.scalars(q)
     return render_template('admin.html', title="Admin", user_lst=user_lst, form=form)
 
-@admin_bp.route('/admin/user/<int:user_id>', methods=['GET', 'POST'])
+@admin_bp.route('/user/<int:user_id>', methods=['GET', 'POST'])
 @login_required
 def view_user(user_id):
     if current_user.role != "Admin":

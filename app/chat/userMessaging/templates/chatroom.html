@@ -11,7 +11,7 @@
         </h5>
         <small class="text-muted">{{ chat_partner.email }}</small>
       </div>
-      <a href="{{ url_for('chat')}}" class="btn btn-outline-secondary btn-sm">
+      <a href="{{ url_for('chat_bp.chat')}}" class="btn btn-outline-secondary btn-sm">
         <i class="bi bi-arrow-left"></i> Back
       </a>
     </div>
@@ -36,7 +36,7 @@
 
     <!-- Chat Input -->
     <div class="card-footer bg-light">
-      <form method="POST" action="{{ url_for('chat_bp.send_message') }}" class="d-flex">
+      <form method="POST" action="{{ url_for('user_msg_bp.send_message') }}" class="d-flex">
         <input type="hidden" name="receiver_id" value="{{ chat_partner.id }}">
         <input type="text" name="content" class="form-control me-2" placeholder="Type a message..." required>
         <button class="btn btn-primary" type="submit">

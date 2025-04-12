@@ -20,7 +20,13 @@ from app import views, models
 from app.debug_utils import reset_db
 
 
-from app.userMessaging.routes import chat_bp
+from app.chat.userMessaging import user_msg_bp
+app.register_blueprint(user_msg_bp,url_prefix="/userMessaging")
+
+from app.chat.chatbot.routes import chatbot_bp
+app.register_blueprint(chatbot_bp,url_prefix="/chatbot")
+
+from app.chat.routes import chat_bp
 app.register_blueprint(chat_bp,url_prefix="/chat")
 
 from app.auth.routes import auth_bp
