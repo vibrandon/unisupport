@@ -92,7 +92,7 @@ def popup_survey():
         return  # exit function if 'student' not logged in
     # check if today is sunday
 
-    if request.endpoint in ['static', 'login', 'student_survey']:
+    if request.endpoint in ['static', 'login', 'survey/student_survey']:
         return  # prevents popup appearing during static requests, login, or when student is completing survey
 
     # Note new import
@@ -111,12 +111,12 @@ def popup_survey():
         #added markup to fill in placeholder for link. Also changed {{ message }} to {{ message | safe }} in "base.html" to allow this to work
         if sunday:
             message = (Markup("Your weekly wellbeing survey is now available!\n"
-                             f'Complete it Here: <a href="/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item'))
+                             f'Complete it Here: <a href="/survey/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item'))
         else:
             # message = ("Don't forget to complete your weekly wellbeing survey!"
             #            f" Complete it Here:({url_for('student_survey')}) to claim your free food/drink item")
             message = Markup("Your weekly wellbeing survey is now available!\n"
-                             f'Complete it Here: <a href="/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item')
+                             f'Complete it Here: <a href="/survey/student_survey" class="alert-link">Click Here</a> for a code for a free food/drink item')
 
         flash(f"{message}", "primary")
 
