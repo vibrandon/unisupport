@@ -4,7 +4,7 @@ from app.models import studentSurvey
 from app.forms import NotRealSurvey
 from flask_login import current_user,login_required
 import sqlalchemy as sa
-from app import db
+from app import db, app
 # NEW IMPORTS
 import random
 from datetime import date, timedelta
@@ -120,7 +120,7 @@ def popup_survey():
 
         flash(f"{message}", "primary")
 
-@survey_bp.before_request  # note this popup appears on every page for now (10/04/2025)
+@app.before_request  # note this popup appears on every page for now (10/04/2025)
 def check_survey_popup():
     popup_survey()
 # note 2: this popup has a minor bug where it still appears when student logs out, but refreshing removes the popup
