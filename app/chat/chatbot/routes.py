@@ -13,13 +13,6 @@ chatbot_bp = Blueprint(
 )
 ai_chatbot = ChatbotMessager()
 
-
-@chatbot_bp.route("/ai", methods=["GET"])
-@login_required
-def chatbot():
-    return redirect(url_for('chatbot_bp.message'))
-
-
 @chatbot_bp.route("/message", methods=['GET', 'POST'])
 @login_required
 def message():
@@ -47,7 +40,7 @@ def message():
             'ChatbotMessage': message.ChatbotMessage,
             'TimeOfMessage': message.TimeOfMessage.strftime('%H:%M:%S')
         })
-    return render_template('chat.html', title="AI Chatbot", form=form, messages=messages)  # Fixed: changed 'chatbot.html' to 'chat.html'
+    return render_template('chatbot.html', title="AI Chatbot", form=form, messages=messages)  # Fixed: changed 'chatbot.html' to 'chat.html'
 
 
 @chatbot_bp.route("/message/reset", methods=['GET', 'POST'])
