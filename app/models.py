@@ -52,6 +52,7 @@ class Student(User):
     surveys: so.Mapped[list['studentSurvey']] = relationship(back_populates='student', cascade='all, delete-orphan')
     wellbeingProfile: so.Mapped['wellbeingProfile'] = relationship(back_populates='student')
 
+    pid: so.Mapped[int] = so.mapped_column(nullable=True)
     __mapper_args__ = {
         "polymorphic_identity": "student",
     }
