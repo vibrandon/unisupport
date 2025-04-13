@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory, Blueprint
-from app.models import User, Professional 
-from app.forms import ChooseForm, LoginForm, RegisterForm, UpdateAccountForm
+from app.models import Professional 
+from app.match.SubForm import ChooseForm,AutoMatchInputForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
 from app.DBAccessor import DBAccessor
@@ -12,19 +12,18 @@ match_bp = Blueprint("match_bp", __name__, template_folder="templates")
 # =====================
 #  Match
 # =====================
-# @match_bp.route("")
-# @login_required
-# def match():
-#     return render_template('match/match.html', title="Match")
 
-@match_bp.route("/auto")
+@match_bp.route("/auto",methods=['post'])
 @login_required
 def autoMatch():
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import cosine_similarity
     # Example student profile (can come from a form or current_user preferences)
-    student_profile = "stress anxiety academic support motivation"
-
+    autoMatchInputForm = AutoMatchInputForm()
+    if not autoMatchInputForm.validate_on_submit():
+        flash("Please input your interests", "danger")
+        return render_template('match.html', title="Match",autoMatchInputForm=autoMatchInputForm)
+    student_interests= autoMatchInputForm.interests.data
     # Load all professionals
     professionals = db.session.scalars(db.select(Professional)).all()
 
@@ -32,7 +31,7 @@ def autoMatch():
     prof_profiles = [f"{p.specialty}" for p in professionals]
 
     # Combine student and professional data for vectorizing
-    profiles = [student_profile] + prof_profiles
+    profiles = [student_interests] + prof_profiles
 
     # Convert to vectors using TF-IDF
     vectorizer = TfidfVectorizer()
@@ -53,7 +52,8 @@ def autoMatch():
 @match_bp.route("/")
 @login_required
 def match():
-    return render_template('match.html', title="Match")
+    autoMatchInputForm = AutoMatchInputForm()
+    return render_template('match.html', title="Match",autoMatchInputForm=autoMatchInputForm)
 
 @match_bp.route("/manual")
 @login_required

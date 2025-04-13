@@ -38,3 +38,4 @@ Thumbs.db
 
 # Git internal (in case of zip extraction)
 .git/
+app/data/data.sqlite
