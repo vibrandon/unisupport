@@ -2,42 +2,63 @@
 
 {% block content %}
 <div class="container my-5">
-    <h1 class="mb-4">💬 Chat Support</h1>
+    <h1 class="mb-4">🤖 AI Support Assistant</h1>
 
-    <!-- Suggestion to use AI Chat -->
-    <div class="alert alert-info d-flex justify-content-between align-items-center">
-        <div>
-            <strong>💡 Want to speak to our AI instead?</strong><br>
-            Get instant, confidential support 24/7 with our AI chatbot.
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <div class="d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-robot me-2"></i>UniSupport AI Chatbot</span>
+                <a href="{{ url_for('chatbot_bp.reset') }}" class="btn btn-sm btn-outline-light">
+                    <i class="bi bi-arrow-clockwise"></i> New Message
+                </a>
+            </div>
         </div>
-        <a href="{{ url_for('chatbot_bp.chatbot') }}" class="btn btn-outline-primary">
-            <i class="bi bi-robot"></i> Talk to AI
-        </a>
-    </div>
 
-    <!-- One-on-One Chat Section -->
-    <div class="card shadow-sm mt-4">
         <div class="card-body">
-            <h5 class="card-title">👥 Start a 1-on-1 Chat</h5>
-            <p class="text-muted">Choose a user to start messaging with:</p>
+            <div class="mb-4" style="height: 400px; overflow-y: auto;">
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.ChatbotMessage %}
+                            <div class="d-flex mb-3">
+                                <div class="card border-primary" style="max-width: 80%;">
+                                    <div class="card-body py-2 px-3">
+                                        <p class="card-text mb-1">{{ message.message }}</p>
+                                        <p class="card-text mb-0"><small class="text-muted">{{ message.TimeOfMessage }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="d-flex justify-content-end mb-3">
+                                <div class="card bg-primary text-white" style="max-width: 80%;">
+                                    <div class="card-body py-2 px-3">
+                                        <p class="card-text mb-1">{{ message.message }}</p>
+                                        <p class="card-text mb-0"><small class="text-white opacity-75">{{ message.TimeOfMessage }}</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="d-flex mb-3">
+                        <div class="card border-primary" style="max-width: 80%;">
+                            <div class="card-body py-2 px-3">
+                                <p class="card-text mb-1">Hi! I'm Kami, the UniSupport AI assistant, is there anything I can help you with today?</p>
+                                <p class="card-text mb-0"><small class="text-muted">now</small></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
 
-            {% if users %}
-              <ul class="list-group">
-                {% for user in users %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <div>
-                    <strong>{{ user.firstname }} {{ user.lastname }}</strong>
-                    <br><small class="text-muted">{{ user.email }}</small>
-                  </div>
-                  <a href="{{ url_for('user_msg_bp.chat_with_user', user_id=user.id) }}" class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-chat-dots"></i> Chat
-                  </a>
-                </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <p class="text-muted">No available users to chat with right now.</p>
-            {% endif %}
+            <form method="POST" action="{{ url_for('chatbot_bp.message') }}">
+                {{ form.hidden_tag() }}
+                <div class="input-group">
+                    {{ form.message(class="form-control", placeholder="Type your message...", autocomplete="off") }}
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i> Send
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
