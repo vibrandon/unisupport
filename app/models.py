@@ -115,12 +115,11 @@ class wellbeingProfile(db.Model):
 
 class survey(db.Model):
     __tablename__ = 'surveys'
-    id: so.Mapped[int] = so.mapped_column(primary_key=True)
+    id: so.Mapped[int] = so.mapped_column(sa.Integer,primary_key=True)
     type: so.Mapped[str] = so.mapped_column(sa.String(50))
-    # change questions from a list into a dictionary with {question:answer,question:answer} pairs
-    questions: so.Mapped[list[str]] = so.mapped_column(sa.String())
+    questions: so.Mapped[str] = so.mapped_column(sa.String(500))
     #timestamp added
-    timestamp: so.Mapped[Optional[datetime]] = so.mapped_column(sa.DateTime, default=datetime.now)
+    timestamp: so.Mapped[Optional[datetime]] = so.mapped_column(sa.DateTime, default=datetime.now,primary_key=True)
 
     #implementation of getQuestions function
     def getQuestions(self):
@@ -136,6 +135,7 @@ class survey(db.Model):
 class studentSurvey(survey):
     __tablename__ = 'studentSurveys'
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('surveys.id'), primary_key=True)
+    sTimestamp: so.Mapped[Optional[datetime]] = so.mapped_column(sa.DateTime,default=datetime.now, primary_key=True)
     studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.id'), index=True)
     student: so.Mapped['Student'] = relationship(back_populates='surveys')
     #polymorphism to inherit from survey class
