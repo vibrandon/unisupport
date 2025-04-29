@@ -1,6 +1,42 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container my-5">
+<div class="container">
+    <h1 class="mb-4 text-center">Congratulation Matching Succeeded</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                <div class="card-body text-center">
+                    <p class="card-text">{{ professionals.firstname}} was matched with you</p>
+                    <p class="card-text"><strong>Specialty:</strong> {{ professionals.specialty }}</p>
+                    <p class="card-text"><strong>Email:</strong> {{ professionals.email }}</p>
+                    <p class="card-text">
+                        <a href="{{ url_for('home') }}" class="btn btn-primary">Home</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<!-- Modal -->
+<!-- <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- <div class="modal-dialog modal-dialog-centered show">
     <h1 class="mb-4">👨‍⚕️ Congratulation Matching Succeeded</h1>
     <div class="row row-cols-1 row-cols-md-2 g-4">
     {% if professionals %}
@@ -15,5 +51,5 @@
         </div>
         {% endif %}
     </div>
-</div>
+</div> -->
 {% endblock %}
