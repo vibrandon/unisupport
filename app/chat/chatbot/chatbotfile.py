@@ -1,4 +1,4 @@
-from flask import app
+from flask import Flask
 import os
 
 

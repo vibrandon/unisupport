@@ -12,8 +12,7 @@ app.jinja_env.undefined = StrictUndefined
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 login = LoginManager(app)
-login.login_view = 'login'
-
+login.login_view = 'auth_bp.login'
 
 
 from app import views, models

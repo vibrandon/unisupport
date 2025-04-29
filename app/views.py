@@ -1,6 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request
 from markupsafe import Markup
 
+from flask import render_template, redirect, url_for, jsonify,flash, request, send_file, send_from_directory
 from app import app
 from app.models import studentSurvey
 from app.forms import NotRealSurvey
@@ -20,7 +21,10 @@ from datetime import date, timedelta
 @app.route("/")
 def home():
     return render_template('home.html', title="UniSupport")
-
+@app.route("/avail")
+def avail():
+    result = {'status_code': 200,'data':"hello"}
+    return jsonify(result)
 # =====================
 # ❗ Error Handlers
 # =====================
