@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, session, request, redirect, url_for
 from flask_login import login_required, current_user
 from app import db
-from app.DBAccessor import DBAccessor
+from app.db_accessor import DBAccessor
 from app.chat.chatbot.chatbotfile import ChatbotMessager
 from app.models import Chatbot
 from app.forms import ChatbotForm
