@@ -1,10 +1,11 @@
 import sqlalchemy as sa
 import sqlalchemy.exc
+from flask import flash
+
 from app import app,db
-from app.models import User, Professional, Student
+from app.models import User, Professional, Student, studentSurvey, wellbeingProfile
 from datetime import date, datetime
-class StudentSurvey:
-    pass
+
 class DBAccessor:
     _instance = None
     def __new__(cls):
@@ -21,9 +22,11 @@ class DBAccessor:
             db.session.commit()
         except sqlalchemy.exc.SQLAlchemyError as e:
             db.session.rollback()
-    def student_survey(self,current_user):
+    def record_student_survey(self,current_user):
+        #copy in updated student survey
         try:
             survey = studentSurvey(
+                id=current_user.id,
                 student=current_user,
                 studentID=current_user.id,
                 timestamp=datetime.now(),
@@ -34,3 +37,28 @@ class DBAccessor:
             db.session.commit()
         except sqlalchemy.exc.SQLAlchemyError as e:
             db.session.rollback()
+            flash(f"{e} occurred", "danger")
+    def update_wellbeing_profile(self,user,wellbeing_status,wellbeing_score,recommendations_csv):
+        if user.wellbeingProfile:
+            user.wellbeingProfile.wellbeingStatus = wellbeing_status
+            user.wellbeingProfile.wellbeingScore = wellbeing_score
+            user.wellbeingProfile.recommendations = recommendations_csv
+            try:
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                flash(f"Error: {str(e)}", "danger")
+    def new_wellbeing_profile(self,user,wellbeing_status,wellbeing_score,recommendations_csv):
+        new_well_profile = wellbeingProfile(
+            student=user,
+            studentID=user.id,
+            wellbeingStatus=wellbeing_status,
+            wellbeingScore=wellbeing_score,
+            recommendations=recommendations_csv
+        )
+        try:
+            db.session.add(new_well_profile)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error: {str(e)}", "danger")
