@@ -6,7 +6,7 @@ import os
 # Import the Flask app instance from the main app file
 from app import app
 from app.models import Student
-from app.DBAccessor import DBAccessor
+from app.db_accessor import DBAccessor
 # Import pytest for writing and running tests
 import pytest
 
