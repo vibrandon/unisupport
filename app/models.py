@@ -111,8 +111,9 @@ class wellbeingProfile(db.Model):
     studentID: so.Mapped[int] = so.mapped_column(sa.ForeignKey('students.id'),primary_key=True)
     student: so.Mapped['Student'] = relationship(back_populates='wellbeingProfile')
     #reportHistory: so.Mapped[str] = so.mapped_column(sa.String())
-    recommendations: so.Mapped[list[str]] = so.mapped_column(sa.String())
+    recommendations: so.Mapped[str] = so.mapped_column(sa.String())
     wellbeingStatus: so.Mapped[str] = so.mapped_column(sa.String(120))
+    wellbeingScore: so.Mapped[float] = so.mapped_column(sa.Float, default=0.0)
 
 class survey(db.Model):
     __tablename__ = 'surveys'
