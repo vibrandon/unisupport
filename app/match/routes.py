@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, request, send_file, send_from_directory, Blueprint
 from app.models import Professional 
-from app.match.SubForm import ChooseForm,AutoMatchInputForm
-from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
+from app.match.sub_form import ChooseForm,AutoMatchInputForm
+from flask_login import current_user, login_required
 import sqlalchemy as sa
 from app.DBAccessor import DBAccessor
 from app import db
@@ -15,7 +15,7 @@ match_bp = Blueprint("match_bp", __name__, template_folder="templates")
 
 @match_bp.route("/auto",methods=['post'])
 @login_required
-def autoMatch():
+def auto_match():
     from sklearn.feature_extraction.text import TfidfVectorizer
     from sklearn.metrics.pairwise import cosine_similarity
     # Example student profile (can come from a form or current_user preferences)
@@ -57,7 +57,7 @@ def match():
 
 @match_bp.route("/manual")
 @login_required
-def manualMatch():
+def manual_match():
     from app.models import Professional  # if not already imported
     professionals = db.session.scalars(db.select(Professional)).all()
     chooseForm = ChooseForm()
@@ -65,7 +65,7 @@ def manualMatch():
 
 @match_bp.route("/matchProf", methods=['POST'])
 @login_required
-def matchProf():
+def match_prof():
     form = ChooseForm()
     sid = current_user.get_id()
     if form.validate_on_submit():
@@ -81,4 +81,3 @@ def matchProf():
             )
     flash("Invalid selection", "danger")
     return render_template('/match/notification.html', title="Matching Notification",prof=professional)
-    # return redirect(url_for('match_bp.manualMatch'))
