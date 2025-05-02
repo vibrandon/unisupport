@@ -45,7 +45,7 @@ class ChangePasswordForm(FlaskForm):
             raise ValidationError("Incorrect password")
 
 class ChatbotForm (FlaskForm):
-    message = StringField('Message', validators=[DataRequired()])
+    message = StringField('Message', validators=[Optional()])
     submit = SubmitField('Send')
 
 class RegisterForm(FlaskForm):
