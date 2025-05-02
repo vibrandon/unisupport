@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mt-4">Your Wellbeing Profile</h1>
+
+        <div class="card mb-4">
+            <div class="card-header, text-center">
+                <h2>Weekly Wellbeing Score</h2>
+            </div>
+            <div class="card-body text-center">
+                <h1>{{ score }}/10</h1>
+                <h4>Status: {{ status }}</h4>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="text-center">Recommendations of the week</h2>
+                {% if recommendations %}
+                    <ul class="list">
+                        {% for recommendation in recommendations %}
+                            <li>{{ recommendation }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <h4>No Recommendations available</h4>
+                {% endif %}
+            </div>
+        </div>
+
+
+
+
+    </div>
+{% endblock %}
