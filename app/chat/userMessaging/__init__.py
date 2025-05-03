@@ -1,1 +1,1 @@
-from .routes import user_msg_bp
+from .routes import user_messaging_bp

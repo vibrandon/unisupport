@@ -1,33 +1,17 @@
-from flask import render_template, redirect, url_for, flash, request
-from markupsafe import Markup
-
-from flask import render_template, redirect, url_for, jsonify,flash, request, send_file, send_from_directory
+from flask import render_template, jsonify
 from app import app
-from app.models import studentSurvey
-from app.forms import NotRealSurvey
-from app.models import User, Professional, Student
-from app.forms import ChooseForm, LoginForm, ChangePasswordForm, RegisterForm
-from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
-import sqlalchemy as sa
-from app import db
-from urllib.parse import urlsplit
-# NEW IMPORTS
-import random
-from datetime import date, timedelta
 
-# =====================
-# 🏠 Home Route
-# =====================
+# Home Route
 @app.route("/")
 def home():
     return render_template('home.html', title="UniSupport")
+
 @app.route("/avail")
 def avail():
     result = {'status_code': 200,'data':"hello"}
     return jsonify(result)
-# =====================
-# ❗ Error Handlers
-# =====================
+
+# Error Handlers
 @app.errorhandler(403)
 def error_403(error):
     return render_template('errors/403.html', title='Error'), 403

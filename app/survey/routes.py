@@ -1,13 +1,16 @@
 from flask import render_template, redirect, url_for, flash, Blueprint, request
 from markupsafe import Markup
-from app.models import studentSurvey, professionalSurvey, wellbeingProfile
-from app.forms import NotRealSurvey, StudentSurveyForm
+
+from app.db_accessor import DBAccessor
+from app.models import studentSurvey
+from app.forms import StudentSurveyForm
 from flask_login import current_user,login_required
 import sqlalchemy as sa
 from app import db, app
+
 # NEW IMPORTS
 import random
-from datetime import datetime, timedelta, date
+from datetime import timedelta, date
 
 survey_bp = Blueprint("survey_bp", __name__, template_folder="templates")
 
@@ -33,8 +36,6 @@ def student_survey():
         #Get question/answer dictionary pairs from returnQuestions() and total from returnTotal()
 
         questions = form.returnQuestions()
-        mental_health_total = form.returnTotal()
-
         wellbeing_result = form.getWellBeingStatus()
         wellbeing_status = wellbeing_result["status"]
         wellbeing_score = wellbeing_result["score"]
@@ -42,79 +43,29 @@ def student_survey():
         # status(String) = [excellent, good ...]
         # score = float 0.0 - 10.0
 
-        category_scores = form.calculateCategoryScores()
         recommendations = form.personalisedRecommendations()
         recommendations_csv = "|".join(recommendations)
         # csv style but with | to avoid , conflicts
 
+        #create DB accessor object
+        db_accessor = DBAccessor()
         if current_user.wellbeingProfile:
-            current_user.wellbeingProfile.wellbeingStatus = wellbeing_status
-            current_user.wellbeingProfile.wellbeingScore = wellbeing_score
-            current_user.wellbeingProfile.recommendations = recommendations_csv
-            try:
-                db.session.commit()
-            except Exception as e:
-                db.session.rollback()
-                flash(f"Error: {str(e)}", "danger")
-
-        else: # Create new profile
-            new_well_profile = wellbeingProfile(
-                student=current_user,
-                studentID=current_user.id,
-                wellbeingStatus=wellbeing_status,
-                wellbeingScore=wellbeing_score,
-                recommendations=recommendations_csv
+            db_accessor.update_wellbeing_profile(
+                user=current_user,
+                wellbeing_status=wellbeing_status,
+                wellbeing_score=wellbeing_score,
+                recommendations_csv=recommendations_csv
             )
-            try:
-                db.session.add(new_well_profile)
-                db.session.commit()
-            except Exception as e:
-                db.session.rollback()
-                flash(f"Error: {str(e)}", "danger")
-        """
-        If total above certain value, or certain worrying responses detected,
-        change WellbeingProfile's wellbeingStatus to more negative result. 
-        """
-        # if mental_health_total > 10:
-        #     #update wellbeing profile to display that this result is worrying.
-        #     #look for wellbeing profile:
-        #     if current_user.wellbeingProfile:
-        #         current_user.wellbeingProfile.wellbeingStatus = "Worrying"
-        #         current_user.wellbeingProfile.recommendations += ["Improve Sleep","Improve excercise",
-        #                                                            "Match with professional"]
-        #         try:
-        #             db.session.commit()
-        #         except:
-        #             db.session.rollback()
-        #     #if it is not there, create wellbeing profile
-        #     else:
-        #         new_well_profile = wellbeingProfile(
-        #             student=current_user,
-        #             studentID=current_user.id,
-        #             wellbeingStatus="Worrying",
-        #             recommendations=["Improve Sleep",
-        #                              "Improve excercise",
-        #                              "Match with professional"]
-        #         )
-        #         try:
-        #             db.session.add(new_well_profile)
-        #             db.session.commit()
-        #         except:
-        #             db.session.rollback()
-
-        try:
-            survey = studentSurvey(
-                id=current_user.id,
-                student=current_user,
-                studentID=current_user.id,
-                timestamp=datetime.now(),
-                questions=questions
+        else:
+            # Create new profile
+            db_accessor.new_wellbeing_profile(
+                    user=current_user,
+                    wellbeing_status=wellbeing_status,
+                    wellbeing_score=wellbeing_score,
+                    recommendations_csv=recommendations_csv
             )
-            db.session.add(survey)
-            db.session.commit()
-        except sa.exc.SQLAlchemyError as e:
-            db.session.rollback()
-            flash(f"{e} occurred","danger")
+
+        db_accessor.record_student_survey(current_user,questions=questions)
         return redirect(url_for('home'))
 
     return render_template('generic_form.html', title="Student Wellbeing Survey", form=form)
@@ -180,7 +131,7 @@ def wellbeing_profile():
 
     status = wellbeing_profile.wellbeingStatus
     score = wellbeing_profile.wellbeingScore
-    recommendations = []
+
     recommendations = wellbeing_profile.recommendations.split("|")
 
     return render_template('wellbeing_profile.html', title='Wellbeing profile', wellbeing_profile=wellbeing_profile, score=score, status=status, recommendations=recommendations)

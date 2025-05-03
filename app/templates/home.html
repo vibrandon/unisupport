@@ -20,9 +20,12 @@
         <div class="col-md-6">
             <div class="card shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="card-title">📚 Academic Adjustments</h5>
-                    <p class="card-text">Easily request deadline extensions or adjustments, linked directly to your wellbeing data for informed decisions.</p>
-                    <a href="{{ url_for('auth_bp.login') }}" class="btn btn-outline-primary">Request Support</a>
+                <h5 class="card-title">📚 Academic Adjustments</h5>
+                    <p class="card-text">Request extensions or adjustments, tied to your wellbeing data for smarter decisions.</p>
+                    <!-- Upcoming feature, disabled button -->
+                    <a class="btn btn-outline-secondary disabled" style="pointer-events: none; cursor: not-allowed;" title="Coming soon!">
+                      Request Support (Soon)
+                    </a>
                 </div>
             </div>
         </div>
@@ -43,7 +46,7 @@
                 <div class="card-body">
                     <h5 class="card-title">💬 AI Chatbot & Messaging</h5>
                     <p class="card-text">Chat anytime with our AI assistant or connect with staff and peers in moderated chatrooms.</p>
-                    <a href="{{ url_for('chat_bp.chat') }}" class="btn btn-outline-primary">Chat With Us</a>
+                    <a href="{{ url_for('chat_bp.chat') }}" class="btn btn-outline-primary">Start Chatting</a>
                 </div>
             </div>
         </div>

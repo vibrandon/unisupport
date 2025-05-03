@@ -1,7 +1,7 @@
 from app import db
 from app.models import (
     User, Student, Professional, Message, Admin,
-    studentSurvey, professionalSurvey, wellbeingProfile
+    studentSurvey, professionalSurvey, wellbeingProfile, StudentChatMessage
 )
 from werkzeug.security import generate_password_hash
 
@@ -60,6 +60,15 @@ def reset_db():
         Message(sender_id=students[0].id, receiver_id=professionals[0].id, content="Hi, I need help."),
         Message(sender_id=professionals[0].id, receiver_id=students[0].id, content="Of course! I'm here to help.")
     ])
+
+    open_chat_messages = [
+        StudentChatMessage(sender_id=students[0].id, content="Hey everyone, how's the coursework going?"),
+        StudentChatMessage(sender_id=students[1].id, content="Pretty tough! Anyone cracked the latest assignment yet?"),
+        StudentChatMessage(sender_id=students[2].id, content="Not yet, but planning to start tonight."),
+        StudentChatMessage(sender_id=students[3].id, content="Same here. Let's discuss tips!"),
+        StudentChatMessage(sender_id=students[4].id, content="I found a great resource, happy to share."),
+    ]
+    db.session.add_all(open_chat_messages)
 
     db.session.commit()
     print("✅ Database has been reset and seeded.")

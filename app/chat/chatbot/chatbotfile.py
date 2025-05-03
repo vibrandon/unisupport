@@ -31,6 +31,9 @@ class ChatbotMessager:
         if any(word in message for word in ["thank you", "appreciate", "thanks", "thx", "thankful"]):
             return "Hey, You're welcome! Do you require any other assistance? I'm always here to help!"
 
+        if not message or message.strip() == "":
+            return "I'm sorry, you haven't typed anything; is there anything I can you with today? Try asking about the matching system, feeling stressed or wellbeing profiles!"
+
         return "Hi, are you feeling stressed regarding an upcoming deadline, or need assistance in matching on the system?"
 
     def get_response(self, message, chat_history=None):
