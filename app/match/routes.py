@@ -3,7 +3,7 @@ from app.models import Professional
 from app.match.SubForm import ChooseForm,AutoMatchInputForm
 from flask_login import current_user, login_user, logout_user, login_required, fresh_login_required
 import sqlalchemy as sa
-from app.DBAccessor import DBAccessor
+from app.db_accessor import DBAccessor
 from app import db
 from flask import g
 

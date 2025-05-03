@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, flash, session, request, redirect, url_for
 from flask_login import login_required, current_user
 from app import db
+from app.db_accessor import DBAccessor
 from app.chat.chatbot.chatbotfile import ChatbotMessager
 from app.models import Chatbot
 from app.forms import ChatbotForm
@@ -12,6 +13,8 @@ chatbot_bp = Blueprint(
     template_folder="templates"
 )
 ai_chatbot = ChatbotMessager()
+db_accessor = DBAccessor()
+
 
 @chatbot_bp.route("/message", methods=['GET', 'POST'])
 @login_required
@@ -20,15 +23,22 @@ def message():
     if form.validate_on_submit():
         user_message = form.message.data
         user_msg = Chatbot(user_id=current_user.id, message=user_message, ChatbotMessage=False)
+
+        # Use db directly since DBAccessor doesn't have add method
         db.session.add(user_msg)
         db.session.commit()
+
         chat_history = session.get('chat_history', [])
         chatbot_response, updated_chat_history = ai_chatbot.get_response(user_message, chat_history)
         session['chat_history'] = updated_chat_history
+
         chatbot_msg = Chatbot(user_id=current_user.id, message=chatbot_response, ChatbotMessage=True)
         db.session.add(chatbot_msg)
         db.session.commit()
+
         return redirect(url_for('chatbot_bp.message'))
+
+    # Use db directly since DBAccessor doesn't have a general query method
     chat_history = db.session.scalars(
         db.select(Chatbot).where(Chatbot.user_id == current_user.id).order_by(Chatbot.TimeOfMessage)
     ).all()
@@ -40,14 +50,17 @@ def message():
             'ChatbotMessage': message.ChatbotMessage,
             'TimeOfMessage': message.TimeOfMessage.strftime('%H:%M:%S')
         })
-    return render_template('chatbot.html', title="AI Chatbot", form=form, messages=messages)  # Fixed: changed 'chatbot.html' to 'chat.html'
+    return render_template('chatbot.html', title="AI Chatbot", form=form, messages=messages)
 
 
 @chatbot_bp.route("/message/reset", methods=['GET', 'POST'])
 @login_required
 def reset():
     session.pop('chat_history', None)
+
+    # Use db directly for delete operation
     db.session.execute(db.delete(Chatbot).where(Chatbot.user_id == current_user.id))
     db.session.commit()
+
     flash('Chat history cleared successfully!', 'success')
     return redirect(url_for('chatbot_bp.message'))

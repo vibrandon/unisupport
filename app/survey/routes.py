@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for, flash, Blueprint, request
 from markupsafe import Markup
 
-from app.DBAccessor import DBAccessor
+from app.db_accessor import DBAccessor
 from app.models import studentSurvey, professionalSurvey, wellbeingProfile
 from app.forms import NotRealSurvey, StudentSurveyForm
 from flask_login import current_user,login_required
