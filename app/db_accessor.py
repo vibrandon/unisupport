@@ -36,6 +36,7 @@ class DBAccessor:
             db.session.commit()
         except sqlalchemy.exc.SQLAlchemyError as e:
             db.session.rollback()
+            raise sqlalchemy.exc.SQLAlchemyError()
             flash(f"{e} occurred", "danger")
     def update_wellbeing_profile(self,user,wellbeing_status,wellbeing_score,recommendations_csv):
         if user.wellbeingProfile:
@@ -61,7 +62,6 @@ class DBAccessor:
         except Exception as e:
             db.session.rollback()
             flash(f"Error: {str(e)}", "danger")
-
     def get_all_professionals(self):
         return db.session.scalars(db.select(Professional)).all()
 
