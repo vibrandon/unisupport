@@ -18,7 +18,7 @@ def client():
         yield client
 
 def test_availability(client):
-    """Test the availabitliy route."""
+    """Test the availability route."""
     response = client.get('/avail')
     assert response.status_code == 200
     assert response.get_json()['data']== "hello"

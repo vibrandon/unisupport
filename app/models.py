@@ -8,10 +8,6 @@ from app import db, login
 from dataclasses import dataclass
 from datetime import datetime
 
-# =========================
-# 👤 User Model
-# =========================
-
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id: so.Mapped[int] = so.mapped_column(primary_key=True)

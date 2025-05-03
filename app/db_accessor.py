@@ -1,10 +1,9 @@
-import sqlalchemy as sa
 import sqlalchemy.exc
 from flask import flash
 
-from app import app,db
+from app import db
 from app.models import User, Professional, Student, studentSurvey, wellbeingProfile
-from datetime import date, datetime
+from datetime import datetime
 
 class DBAccessor:
     _instance = None
@@ -22,7 +21,7 @@ class DBAccessor:
             db.session.commit()
         except sqlalchemy.exc.SQLAlchemyError as e:
             db.session.rollback()
-    def record_student_survey(self,current_user):
+    def record_student_survey(self,current_user,questions):
         #copy in updated student survey
         try:
             survey = studentSurvey(
@@ -30,7 +29,7 @@ class DBAccessor:
                 student=current_user,
                 studentID=current_user.id,
                 timestamp=datetime.now(),
-                questions={}
+                questions=questions
             )
             #change questions from a list into a dictionary with {question:answer,question:answer} pairs
             db.session.add(survey)
