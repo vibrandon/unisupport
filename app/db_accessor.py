@@ -1,9 +1,9 @@
 import sqlalchemy.exc
 from flask import flash
 
-from app import db
-from app.models import User, Professional, Student, studentSurvey, wellbeingProfile
-from datetime import datetime
+from app import app,db
+from app.models import User, Professional, Student, studentSurvey, wellbeingProfile, StudentChatMessage
+from datetime import date, datetime
 
 class DBAccessor:
     _instance = None
@@ -62,6 +62,7 @@ class DBAccessor:
         except Exception as e:
             db.session.rollback()
             flash(f"Error: {str(e)}", "danger")
+
     def get_all_professionals(self):
         return db.session.scalars(db.select(Professional)).all()
 
@@ -78,3 +79,10 @@ class DBAccessor:
         except Exception as e:
             db.session.rollback()
             flash(f"Error: {str(e)}", "danger")
+
+    def add_student_message(self, message):
+        db.session.add(message)
+        db.session.commit()
+
+    def get_recent_student_messages(self, limit=50):
+        return StudentChatMessage.query.order_by(StudentChatMessage.timestamp.desc()).limit(limit).all()

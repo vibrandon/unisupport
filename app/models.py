@@ -80,6 +80,15 @@ class Message(db.Model):
     content = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
+class StudentChatMessage(db.Model):
+    __tablename__ = 'student_chat_message'
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    sender = db.relationship('User', backref='student_messages')
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+
 
 
 @dataclass()

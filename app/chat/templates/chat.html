@@ -1,44 +1,54 @@
 {% extends "base.html" %}
-
 {% block content %}
 <div class="container my-5">
-    <h1 class="mb-4">💬 Chat Support</h1>
+    <h1>Chat Support</h1>
 
-    <!-- Suggestion to use AI Chat -->
-    <div class="alert alert-info d-flex justify-content-between align-items-center">
+    <!-- Quick link to AI chatbot (could be moved elsewhere later) -->
+    <div class="alert alert-info d-flex justify-content-between">
         <div>
-            <strong>💡 Want to speak to our AI instead?</strong><br>
-            Get instant, confidential support 24/7 with our AI chatbot.
+            <strong>Want to chat with our AI?</strong>
+            <small>24/7 support, no wait.</small>
         </div>
         <a href="{{ url_for('chatbot_bp.message') }}" class="btn btn-outline-primary">
             <i class="bi bi-robot"></i> Talk to AI
         </a>
     </div>
 
-    <!-- One-on-One Chat Section -->
+    <!-- User chat list -->
     <div class="card shadow-sm mt-4">
         <div class="card-body">
             <h5 class="card-title">👥 Start a 1-on-1 Chat</h5>
             <p class="text-muted">Choose a user to start messaging with:</p>
 
-            {% if users %}
-              <ul class="list-group">
-                {% for user in users %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                  <div>
-                    <strong>{{ user.firstname }} {{ user.lastname }}</strong>
-                    <br><small class="text-muted">{{ user.email }}</small>
-                  </div>
-                  <a href="{{ url_for('user_msg_bp.chat_with_user', user_id=user.id) }}" class="btn btn-outline-primary btn-sm">
-                    <i class="bi bi-chat-dots"></i> Chat
-                  </a>
-                </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <p class="text-muted">No available users to chat with right now.</p>
-            {% endif %}
-        </div>
+    {% if users %}
+    <ul class="list-group mt-4">
+        {% for user in users %}
+        <li class="list-group-item">
+            <b>{{ user.firstname }}</b> ({{ user.email }})
+            <a href="{{ url_for('user_messaging_bp.chat_with_user', user_id=user.id) }}" class="btn btn-sm btn-outline-primary float-end">
+                Chat
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No users online.</p>
+    {% endif %}
+
+    <!-- Open Student chat room-->
+</div>
+</div>
+
+{% if current_user.type == 'student' %}
+<div class="card mt-4">
+    <div class="card-body">
+        <h5 class="card-title">Open Student Chat Room</h5>
+        <p class="card-text">Join the open space where students can chat and support each other.</p>
+        <a href="{{ url_for('user_messaging_bp.student_chat_room') }}" class="btn btn-primary">
+            Enter Student Chat Room
+        </a>
     </div>
+</div>
+{% endif %}
 </div>
 {% endblock %}
