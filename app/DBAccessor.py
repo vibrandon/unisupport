@@ -62,3 +62,20 @@ class DBAccessor:
         except Exception as e:
             db.session.rollback()
             flash(f"Error: {str(e)}", "danger")
+
+    def get_all_professionals(self):
+        return db.session.scalars(db.select(Professional)).all()
+
+    def get_all_students(self):
+        return db.session.scalars(db.select(Student)).all()
+
+    def get_user_by_id(self, user_id):
+        return db.session.get(User, user_id)
+
+    def add_message(self, message):
+        try:
+            db.session.add(message)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            flash(f"Error: {str(e)}", "danger")
