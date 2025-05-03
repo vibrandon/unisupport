@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app.models import Message
-from app.DBAccessor import DBAccessor  # Make sure to import your accessor class
+from app.db_accessor import DBAccessor  # Make sure to import your accessor class
 
 user_msg_bp = Blueprint("user_msg_bp", __name__, url_prefix="/chat/messages", template_folder="templates")
 db_accessor = DBAccessor()
