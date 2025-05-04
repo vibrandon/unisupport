@@ -1,13 +1,15 @@
 from flask import Flask
 import os
 
-
 class ChatbotMessager:
     def __init__(self):
         pass
 
 
     def response(self, message):
+        message = message.lower()
+        if not message or message.strip() == "":
+            return "I'm sorry, you haven't typed anything; is there anything I can you with today? Try asking about the matching system, feeling stressed or wellbeing profiles!"
         message = message.lower()
 
         if any(word in message for word in ["hey", "hello", "hi", "good morning", "good afternoon", "good evening"]):
@@ -31,12 +33,10 @@ class ChatbotMessager:
         if any(word in message for word in ["thank you", "appreciate", "thanks", "thx", "thankful"]):
             return "Hey, You're welcome! Do you require any other assistance? I'm always here to help!"
 
-        if not message or message.strip() == "":
-            return "I'm sorry, you haven't typed anything; is there anything I can you with today? Try asking about the matching system, feeling stressed or wellbeing profiles!"
-
         return "Hi, are you feeling stressed regarding an upcoming deadline, or need assistance in matching on the system?"
-
+#this is a simple word matching system, the word that is detected in the users message is returned with a response to matched to their query
     def get_response(self, message, chat_history=None):
+        message = "" if message is None else message
         chatbot_response= self.response(message)
         if chat_history is None:
             chat_history = []
@@ -45,3 +45,5 @@ class ChatbotMessager:
         chat_history.append({"role": "chatbot", "message": chatbot_response})
 
         return chatbot_response, chat_history
+
+#this functions initialises an empty list and returns this list by adding the chatbots response and the users message.

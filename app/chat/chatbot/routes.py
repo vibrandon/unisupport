@@ -24,7 +24,7 @@ def message():
         user_message = form.message.data
         user_msg = Chatbot(user_id=current_user.id, message=user_message, ChatbotMessage=False)
 
-        # Use db directly since DBAccessor doesn't have add method
+        # Use db directly since DBAccessor doesn't have methods for chatbot
         db.session.add(user_msg)
         db.session.commit()
 
@@ -37,8 +37,8 @@ def message():
         db.session.commit()
 
         return redirect(url_for('chatbot_bp.message'))
-
-    # Use db directly since DBAccessor doesn't have a general query method
+#the function above differentiates between user and chatbot by ChatbotMessage=False or True for a chatbot and the chat history is visible in the session.
+# Uses db as no query method in dbaccessor
     chat_history = db.session.scalars(
         db.select(Chatbot).where(Chatbot.user_id == current_user.id).order_by(Chatbot.TimeOfMessage)
     ).all()
@@ -51,16 +51,17 @@ def message():
             'TimeOfMessage': message.TimeOfMessage.strftime('%H:%M:%S')
         })
     return render_template('chatbot.html', title="AI Chatbot", form=form, messages=messages)
-
+#this section of code displays the chat history in the session; ordered by time sent, while the user messages the chatbot and the messages all have the time sent shown on them.
 
 @chatbot_bp.route("/message/reset", methods=['GET', 'POST'])
 @login_required
 def reset():
     session.pop('chat_history', None)
 
-    # Use db directly for delete operation
+    # again using db for deleting the chat history
     db.session.execute(db.delete(Chatbot).where(Chatbot.user_id == current_user.id))
     db.session.commit()
 
     flash('Chat history cleared successfully!', 'success')
     return redirect(url_for('chatbot_bp.message'))
+#this section of code will delete the chat history from the live messaging session as well as the database and notifies the user of this.
