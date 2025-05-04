@@ -81,8 +81,8 @@ def popup_survey():
         return  # exit function if 'student' not logged in
     # check if today is sunday
 
-    if request.endpoint in ['static', 'login', 'survey/student_survey']:
-        return  # prevents popup appearing during static requests, login, or when student is completing survey
+    if request.endpoint != 'home':
+        return  # prevents popup appearing outside of home page changed 04/05
 
     # Note new import
     date_today = date.today()
@@ -109,10 +109,10 @@ def popup_survey():
 
         flash(f"{message}", "primary")
 
-@app.before_request  # note this popup appears on every page for now (10/04/2025)
+@app.before_request  # note this popup appears on every page for now (10/04/2025) # changed as of 04/05/2025
 def check_survey_popup():
     popup_survey()
-# note 2: this popup has a minor bug where it still appears when student logs out, but refreshing removes the popup
+# Fixed popup bug where prompt to complete survey remains after first completion
 
 
 # /survey/wellbeing
