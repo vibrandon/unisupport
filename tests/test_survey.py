@@ -4,7 +4,7 @@ import sqlalchemy.exc
 from app import db, app
 from app.db_accessor import DBAccessor
 from app.models import Student, studentSurvey
-
+from app.forms import StudentSurveyForm
 
 @pytest.fixture
 def client():
@@ -65,3 +65,35 @@ def test_record_student_survey(client,student):
     print(user_surveys)
     #query for surveys matching that student returns empty List.
     assert user_surveys == []
+
+# this positive test ensures that the StudentSurveyForm correctly calculates wellbeing scores
+def test_student_survey_form_methods():
+    # disable csrf token required for test case
+    app.config['WTF_CSRF_ENABLED'] = False
+
+    with app.app_context():
+        form = StudentSurveyForm()
+        # Form completed with all valid inputs
+        form.stress_1.data = 8
+        form.stress_2.data = 4
+        form.sleep_1.data = 4
+        form.physical_1.data = 3
+        form.social_1.data = 3
+        form.academic_1.data = 5
+        form.academic_2.data = 3
+        form.engagement_1.data = 4
+        form.engagement_2.data = 2
+
+        # test for calculating cumulative score (engagement_2 NOT included)
+        total = form.returnTotal()
+        assert total == 34
+
+        # test for getWellbeingStatus logic
+        # score = round((total/44)*10, 1)
+        # score >= 8 = Excellent
+        # score >= 7 = Good
+        # score >= 4 = Fair
+        # else(lower than 4) = needs attention
+        result = form.getWellBeingStatus()
+        assert result["status"] == "Good"
+        assert result["score"] == 7.7
