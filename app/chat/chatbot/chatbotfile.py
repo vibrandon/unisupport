@@ -16,7 +16,10 @@ class ChatbotMessager:
             return "Hi! my name is Kami, and I am the UniSupport assistant! Is there any way that I can help you today?"
 
         if any(word in message for word in ["panic", "anxious", "stressed", "nervous", "scared"]):
-            return "Hey, please remember to take it easy on yourself, and implement some self-care you sound stressed."
+            return "Hey, please remember to take it easy on yourself, and implement some self-care, would you like me to suggest some calming activities?"
+
+        if any(word in message for word in ["calming"]):
+            return"Some suggestions to help calm you, would include taking a relaxing bath, going for a walk or some physical activity, as well as spending time with loved ones, I hope you feel better soon!"
 
         if any(word in message for word in ["deadline", "exam", "stress", "assignment"]):
             return "Academic life can be very hard to manage at times, may I suggest you request for an adjustment or extension? I can redirect you to those?"
@@ -47,3 +50,7 @@ class ChatbotMessager:
         return chatbot_response, chat_history
 
 #this functions initialises an empty list and returns this list by adding the chatbots response and the users message.
+
+#example sentences to be used in the recording:
+#I am feeling anxious about upcoming exams
+#please suggest some calming activities
