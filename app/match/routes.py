@@ -49,12 +49,14 @@ def auto_match():
     chooseForm = ChooseForm()
     return render_template("/auto_candidates.html", title="Matched Professionals", scored_profs=scored_profs,chooseForm=chooseForm)
 
+#  the main entry page for matching system
 @match_bp.route("/")
 @login_required
 def match():
     autoMatchInputForm = AutoMatchInputForm()
     return render_template('match.html', title="Match",autoMatchInputForm=autoMatchInputForm)
 
+# display all professional in manual matching initialization 
 @match_bp.route("/manual")
 @login_required
 def manual_match():
@@ -63,6 +65,7 @@ def manual_match():
     chooseForm = ChooseForm()
     return render_template("manual_candidates.html", title="Professionals", professionals=professionals,chooseForm=chooseForm)
 
+# update database to perform matching
 @match_bp.route("/matchProf", methods=['POST'])
 @login_required
 def match_prof():
