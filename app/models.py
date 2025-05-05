@@ -39,13 +39,15 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return f'User(id={self.id}, username={self.username}, email={self.email}, role={self.role})'
 
-
+#Example of Inheritance
 class Student(User):
     __tablename__ = 'students'
     id: so.Mapped[int] = so.mapped_column(sa.ForeignKey('users.id'), primary_key=True)
     degree: so.Mapped[str] = so.mapped_column(sa.String(120),nullable=True)
     address: so.Mapped[str] = so.mapped_column(sa.String(256),nullable=True)
+    #Example of association
     surveys: so.Mapped[list['studentSurvey']] = relationship(back_populates='student', cascade='all, delete-orphan')
+    #Example of composition
     wellbeingProfile: so.Mapped['wellbeingProfile'] = relationship(back_populates='student')
 
     pid: so.Mapped[int] = so.mapped_column(nullable=True)

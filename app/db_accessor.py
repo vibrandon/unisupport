@@ -1,10 +1,11 @@
 import sqlalchemy.exc
 from flask import flash
 
-from app import app,db
+from app import db
 from app.models import User, Professional, Student, studentSurvey, wellbeingProfile, StudentChatMessage
-from datetime import date, datetime
+from datetime import datetime
 
+#This is a Singleton
 class DBAccessor:
     _instance = None
     def __new__(cls):

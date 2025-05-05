@@ -1,11 +1,8 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
-from markupsafe import escape, Markup
 from wtforms import SubmitField, HiddenField, StringField, PasswordField, BooleanField
 from wtforms.fields.choices import SelectField, RadioField
-from wtforms.fields.numeric import IntegerField
-from wtforms.fields.simple import TextAreaField
-from wtforms.validators import DataRequired, EqualTo, NumberRange, ValidationError, Email, Optional
+from wtforms.validators import DataRequired, EqualTo, ValidationError, Email, Optional
 from app import db
 from app.models import User
 

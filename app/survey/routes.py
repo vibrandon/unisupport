@@ -47,7 +47,7 @@ def student_survey():
         recommendations_csv = "|".join(recommendations)
         # csv style but with | to avoid , conflicts
 
-        #create DB accessor object
+        #This uses the singleton DB accessor object
         db_accessor = DBAccessor()
         if current_user.wellbeingProfile:
             db_accessor.update_wellbeing_profile(
