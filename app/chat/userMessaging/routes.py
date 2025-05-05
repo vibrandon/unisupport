@@ -5,7 +5,7 @@ from app.db_accessor import DBAccessor
 
 user_messaging_bp = Blueprint("user_messaging_bp", __name__, url_prefix="/chat/messages",template_folder="templates")
 
-db = DBAccessor()  # using DB accessor helper (wraps db calls)
+db = DBAccessor()  # using Singleton DB accessor helper (wraps db calls)
 
 
 # Loads chat partner and past shared messages.
