@@ -11,7 +11,7 @@
             <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ prof.email }}">{{ prof.email }}</a></p>
             <p class="text-muted">Match Score: {{ '%.2f'|format(score * 100) }}%</p>
             <p>
-                    <form action="{{ url_for('match_bp.matchProf') }}" method="post">
+                    <form action="{{ url_for('match_bp.match_prof') }}" method="post">
                         {{ chooseForm.csrf_token() }}
                         {{ chooseForm.choice(value=prof.id) }}
                         <button class="btn btn-sm btn-success">choose</button>
