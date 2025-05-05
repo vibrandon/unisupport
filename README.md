@@ -72,15 +72,7 @@ The system that has been implemented includes:
 
 Matching System: Two key functionalities are implemented, automatic matching and manual matching, both of them are coded following the original requirement. One change was made in automatic matching that is calculating and demonstrating the relevance between students and professionals by taking advantage of a new algorithm. This enhancement improves the system to be more transparent and friendly.
 
-Messaging system: The messaging system has two parts; the first part includes student to professional messaging and student chatrooms; whilst the second part includes an AI-powered chatbot.
-
-  
-
-To facilitate communication for students-to-professionals users, the chat_with_user() function is utilised to fetch older messages (if any) and renders them on the frontend and send_message() function handles the messages between users.
-
-  
-
-The student chatroom enables peer-to-peer interaction by allowing all student users to see and send messages in an open chatroom. This is done via the student_chat_room() function that handles both the message posting and the fetching recent conversation.
+Messaging system: The messaging system has two parts: student-to-professional messaging and student chatrooms, as well as an AI-powered chatbot. To facilitate communication between students and professionals, the chat_with_user() function retrieves older messages (if any) and renders them on the frontend, while the send_message() function handles sending messages between users. The student chatroom enables peer-to-peer interaction by allowing all student users to see and send messages in an open space, handled by the student_chat_room() function, which manages both message posting and fetching recent conversations. Implemented test cases cover positive and negative scenarios, including successful chat between existing users and error handling when attempting to chat with non-existent users.
 
   
 
