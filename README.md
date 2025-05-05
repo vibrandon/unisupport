@@ -1,5 +1,5 @@
 
-Brief description of the system and its purpose   
+<h1>Brief description of the system and its purpose</h1>
 
   
 
@@ -24,7 +24,7 @@ The system that has been implemented includes:
 
   
 
-Step-by-step instructions on how to run the project:
+<h1>Step-by-step instructions on how to run the project:</h1>
 
 1. Unzip the source code package.
     
@@ -46,7 +46,7 @@ Step-by-step instructions on how to run the project:
 
   
 
-List of programming languages, frameworks, or tools used:
+<h1>List of programming languages, frameworks, or tools used:</h1>
 
   
 
@@ -66,7 +66,7 @@ List of programming languages, frameworks, or tools used:
   
   
 
-A summary of implemented functionalities;
+<h1>A summary of implemented functionalities;</h1>
 
   
 
@@ -98,7 +98,7 @@ Students then fill out the survey form, which calculates their wellbeing score a
 
   
 
-The contribution percentages and the specific work done:
+<h1>The contribution percentages and the specific work done:</h1>
 
   
 
