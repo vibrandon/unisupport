@@ -21,14 +21,21 @@ def reset_db():
     db.session.add(admin)
 
     professionals = []
-    for i in range(5):
+    pro_names = [
+        ("Emma", "Johnson"),
+        ("Liam", "Williams"),
+        ("Olivia", "Brown"),
+        ("Noah", "Jones"),
+        ("Ava", "Garcia")
+    ]
+    for i, (first, last) in enumerate(pro_names):
         p = Professional(
-            username=f"pro{i+1}",
-            firstname=f"Pro{i+1}",
-            lastname="Smith",
-            email=f"pro{i+1}@unisupport.com",
-            phoneNumber=f"000000000{i+1}",
-            workplace=f"Workplace {i+1}",
+            username=f"pro{i + 1}",
+            firstname=first,
+            lastname=last,
+            email=f"{first.lower()}.{last.lower()}@unisupport.com",
+            phoneNumber=f"000000000{i + 1}",
+            workplace=f"Wellbeing Center {i + 1}",
             specialty="Stress Management",
             role="professional",
             type="professional"
@@ -38,37 +45,84 @@ def reset_db():
     db.session.add_all(professionals)
 
     students = []
-    for i in range(10):
+    student_names = [
+        ("James", "Miller"),
+        ("Sophia", "Davis"),
+        ("Benjamin", "Martinez"),
+        ("Isabella", "Hernandez"),
+        ("Lucas", "Lopez"),
+        ("Mia", "Gonzalez"),
+        ("Henry", "Wilson"),
+        ("Charlotte", "Anderson"),
+        ("Alexander", "Thomas"),
+        ("Amelia", "Taylor")
+    ]
+    student_degrees = [
+        "Computer Science",
+        "Psychology",
+        "Mechanical Engineering",
+        "Business Management",
+        "Biology",
+        "Sociology",
+        "Electrical Engineering",
+        "Political Science",
+        "Economics",
+        "English Literature"
+    ]
+    for i, (first, last) in enumerate(student_names):
         s = Student(
-            username=f"student{i+1}",
-            firstname=f"Student{i+1}",
-            lastname="Doe",
-            email=f"student{i+1}@student.com",
-            phoneNumber=f"111111111{i+1}",
-            address=f"Dorm {i+1}A",
-            degree="Computer Science",
+            username=f"student{i + 1}",
+            firstname=first,
+            lastname=last,
+            email=f"{first.lower()}.{last.lower()}@student.com",
+            phoneNumber=f"111111111{i + 1}",
+            address=f"Dorm {i + 1}A",
+            degree=student_degrees[i],
             role="student",
             type="student"
         )
         s.set_password("password")
         students.append(s)
     db.session.add_all(students)
+
     db.session.commit()
 
     # Example message between first student and professional
-    db.session.add_all([
-        Message(sender_id=students[0].id, receiver_id=professionals[0].id, content="Hi, I need help."),
-        Message(sender_id=professionals[0].id, receiver_id=students[0].id, content="Of course! I'm here to help.")
-    ])
+    messages = []
+    pair_count = min(len(professionals), len(students))
+    for i in range(pair_count):
+        messages.append(Message(
+            sender_id=professionals[i].id,
+            receiver_id=students[i].id,
+            content=f"Hi {students[i].firstname}, you've been matched with me, {professionals[i].firstname}, for support!"
+        ))
+        messages.append(Message(
+            sender_id=students[i].id,
+            receiver_id=professionals[i].id,
+            content="Thank you for the support"
+        ))
+    db.session.add_all(messages)
 
-    open_chat_messages = [
-        StudentChatMessage(sender_id=students[0].id, content="Hey everyone, how's the coursework going?"),
-        StudentChatMessage(sender_id=students[1].id, content="Pretty tough! Anyone cracked the latest assignment yet?"),
-        StudentChatMessage(sender_id=students[2].id, content="Not yet, but planning to start tonight."),
-        StudentChatMessage(sender_id=students[3].id, content="Same here. Let's discuss tips!"),
-        StudentChatMessage(sender_id=students[4].id, content="I found a great resource, happy to share."),
+    unique_student_messages = [
+        "Hey everyone! Anyone up for a study group this weekend?",
+        "Just finished the project — feeling relieved!",
+        "Struggling a bit with the algorithms homework, anyone else?",
+        "Looking for a good coffee spot on campus, recommendations?",
+        "Has anyone tried the new note-taking app?",
+        "Excited for the coding bootcamp next month!",
+        "Feeling overwhelmed, but trying to stay positive.",
+        "Anyone want to swap lecture notes?",
+        "Ready for the group presentation next week!",
+        "Just joined the chat — hi all!"
     ]
+
+    open_chat_messages = []
+    for i, student in enumerate(students):
+        open_chat_messages.append(StudentChatMessage(
+            sender_id=student.id,
+            content=unique_student_messages[i]
+        ))
     db.session.add_all(open_chat_messages)
 
     db.session.commit()
-    print("✅ Database has been reset and seeded.")
+    print("✅ Database has been reset")

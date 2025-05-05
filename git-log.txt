@@ -1,0 +1,546 @@
+commit f4f34c7fa871c2ec133ab1904e2353ac38cdddb0
+Merge: fedc64e b6afad1
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Mon May 5 14:57:50 2025 +0100
+
+    Merge remote-tracking branch 'origin/main'
+
+commit fedc64e07af391397ad53f162a840facc5b52936
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Mon May 5 14:57:12 2025 +0100
+
+    Requirement.txt + some other minor changes to chat implementation
+
+commit b6afad1a6ae34a5d4787787c37bb1332ade8c507
+Merge: 5056669 81e333a
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Mon May 5 10:29:58 2025 +0100
+
+    Merge branch 'match-naming-modification' into main
+
+commit 81e333afe66cf931296c33210ed281534d58e198
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Mon May 5 10:28:22 2025 +0100
+
+    comments added in matching
+
+commit 505666967030e2c544605d64171d7ba19b4bd38e
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Mon May 5 10:09:49 2025 +0100
+
+    final touches
+
+commit e0c1ad78b45a3eac94aa151476ded7534c2052ee
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Mon May 5 02:07:33 2025 +0100
+
+    matching test case converted to BDD
+
+commit 40e07a91b3fdfa2f346cc8ee9d9ae6c5a9d4ef73
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Sun May 4 22:56:13 2025 +0100
+
+    added some example sentences
+
+commit 6c600924baf8d1a09ea939c61eaed73889257ee5
+Merge: 2a60193 150db53
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Sun May 4 20:12:58 2025 +0100
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 2a60193ab49f336304b5230ad7f2b62eefd5294d
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Sun May 4 20:12:37 2025 +0100
+
+    added comments to explain code and added my test case to it
+
+commit 150db5309284300688453ae3c563688a8dcdd836
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Sun May 4 19:23:58 2025 +0100
+
+    fixed popup bugs in survey.routes.py
+
+commit 18fe6f2840046bca695b2db2d3a051494d64920d
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Sun May 4 18:30:51 2025 +0100
+
+    added positive test cases for wellbeing calculations with valid survey form completion, test_survey.py
+
+commit de1502a9440b8e99f2f1e170ff2cc75fff11de7a
+Merge: 4b2a21e 39e804a
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Sat May 3 23:55:31 2025 +0100
+
+    Merge branch 'main' into match-naming-modification
+
+commit 39e804a94a207f90944a83cd1b64de8984a3c397
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sat May 3 19:08:23 2025 +0100
+
+    Updated aesthetics to chat page and added dummy data for open chat room"
+
+commit c6e86f6ee1dbed8328a02c870bef11705ce376f1
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sat May 3 18:01:29 2025 +0100
+
+    minor changes to chat.html and home.html
+
+commit e2c7238374bfa486730d360c426998a3802a53aa
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sat May 3 17:22:37 2025 +0100
+
+    added a open student room. Modified other parts of the app to keep it consistent with the additions. Overall maintainace of the app was conducted
+
+commit 26663cd0391d34490b33303450218efcf6e2ea74
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Sat May 3 12:34:12 2025 +0100
+
+    Added negative test with bad parameter for the student_survey, showing that it can handle errors by throwing exceptions and does not add bad data to the database.
+
+commit 4b674263674138ced6483d6815ddf6ef6793332f
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Sat May 3 10:41:34 2025 +0100
+
+    Removed unnecessary inputs and some unused variables. Changed a few comments and fixed incorrect parameter for 'questions' argument in db_accessor.py
+
+commit fe7763340e4d2a92961a5cb19102f9d74ab14360
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sat May 3 01:39:16 2025 +0100
+
+    renaming app.DBAccessor to app.db_accessor
+
+commit f5986999bc830ccd35bd4c92418039d803720f81
+Merge: 598e312 918a55a
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sat May 3 01:31:57 2025 +0100
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 598e312d1768bd374d843c20f24cc6ae7233ad1d
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sat May 3 01:31:30 2025 +0100
+
+    Created positive and negative test cases from the student-professional messaging. Updated the relative routes to use the DBAccessor.py.
+
+commit 918a55a0dac66caa5201a932a7e464966765ef68
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Fri May 2 20:48:26 2025 +0100
+
+    fixed bug 'from app.DBAccessor' import to app.db_accessor
+
+commit 3ec92a9e8ed39210587a28515fe5273c8321ec7e
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Fri May 2 15:36:24 2025 +0100
+
+    uses db accessor now, more refined recognition between an empty message and a message that is not deteceted by the pattern-matching system in place
+
+commit 90bc6d351cd37348b6aa3eba425fa0af561ecbf0
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Fri May 2 15:11:46 2025 +0100
+
+    Renamed DBAccessor.py to db_accessor.py
+
+commit 2b6a53f1eba40e052cab505931b4259dab91be35
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Fri May 2 15:05:10 2025 +0100
+
+    Created new functionalities in DBAccessor.py to enable routes.py to use the DBAccessor instead of connecting to the database directly
+
+commit 4b2a21e66a338f430eff677bbb574e9fca2072a3
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Fri May 2 15:01:42 2025 +0100
+
+    name changed to follow pep8 convention
+
+commit 5c9e6687b8f163ca2257200b8f4814d9265af12b
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Fri May 2 13:43:29 2025 +0100
+
+    Update wellbeing_profile.html - aesthetic changes
+    
+    coloured headers, added a progress bar, cleaner output
+
+commit 7019271d28596110b7e07066a5b6a3eb2f3fdd6b
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Fri May 2 01:59:15 2025 +0100
+
+    Create wellbeing_profile.html
+    
+    just card layout and plain text for now, displays all key information for wellbeing profile
+
+commit 9782be45b4d399196e952ce1d169965ccf59a038
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Fri May 2 01:53:15 2025 +0100
+
+    Update survey/ routes.py, added wellbeing profile, edited the db integration to suit the added scores functionality
+    
+    followed original db functionality structure, edited the logic to suit the program/changes made in forms and models. commented out previous implementation, please clean up once reviewed,
+    
+    wellbeing profile route at bottom, new templates folder added
+
+commit a9163e9615885a558ab6edc1d7b6ab8e5c4d1ec3
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Fri May 2 01:47:57 2025 +0100
+
+    added to StudentSurveyForm() 3 functions - to calculate wellbeing scores
+    
+    added getWellBeingStatus - calculates average wellbeing score out of 10, grades the overall score as excellent, good, fair, etc,
+    
+    calculateCategoryScores - calculates the average scores per question category (stress category, sleep category, academic....)
+    
+    personalised Recommendations - if score is below a threshold, append recommendations to recommendations list - handled as csv in survey routes.
+
+commit 82494eefcf2fb6705a246462393e0a9a3eb32b9b
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Fri May 2 01:41:20 2025 +0100
+
+    Update models.py, wellbeingProfile - added wellbeingScore
+    
+    added wellbeingScore to store float value of wellbeing score, edited recommendations from list[str] to just [str], reading and storing recommendations as csv with '|' delimiter
+
+commit 07793ff8e57fe69d6a91fa9aaf319f9f544c5d02
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Thu May 1 22:43:19 2025 +0100
+
+    added some more message criteria and changed the default message for no matching words.
+
+commit f24fc7c5ea0879868ba289b2fe207afb478a9913
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Thu May 1 15:40:08 2025 +0100
+
+    Update home.html, student wellbeing card with new url_for route to wellbeing profile
+    
+    wellbeing profile route under development as of 01/05/2025
+
+commit dfd975890a3ee3883d161c4f5000a3c9ab2b3d2f
+Merge: a30e217 0852fc2
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Tue Apr 29 20:31:22 2025 +0100
+
+    Merge branch 'match-modification' into main
+
+commit 0852fc29429c70a7916816d23215900aa52bdea7
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Tue Apr 29 20:29:37 2025 +0100
+
+    A new testcase was added and minor modification in notification page
+
+commit a30e2170b41e7b58931ae78c73b92a2f78c5403f
+Merge: b8da569 c292785
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Tue Apr 29 10:34:53 2025 +0100
+
+    Merge remote-tracking branch 'origin/main'
+    
+    # Conflicts:
+    #       app/survey/routes.py
+
+commit b8da569e3d7c99af4c1fab79bd2548c07fe860cf
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Tue Apr 29 10:29:40 2025 +0100
+
+    Completed survey form database integration and changed survey to be the proper version instead of the placeholder.
+
+commit c292785860d770a9a75cc731102395b14c45dad4
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Sun Apr 13 17:29:21 2025 +0100
+
+    duplicated readme file removed
+
+commit 3a246b3309b61a4706ac1b19bb884003383c6a49
+Merge: 2b7c794 1165c94
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Sun Apr 13 17:07:16 2025 +0100
+
+    Merge branch 'match-dev' into main
+
+commit 1165c940ca3d69ee2893533e234abf4b1e7b6731
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Sun Apr 13 16:48:00 2025 +0100
+
+    input textarea was added in automatch page, and login method changed from login to auth_bp.login in __init__.py
+
+commit 2b7c794691b64d2e60eecded49099333c77b25ec
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sun Apr 13 15:53:30 2025 +0100
+
+    Fixed favicon to show on all pages
+
+commit 48a6e7ea7f849342c5695abad36048fd219f9968
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sun Apr 13 15:50:12 2025 +0100
+
+    Moved AI chat to chatbot.html, restored chat.html, updated endpoints
+
+commit 8bfc9df6ede9dcd5952c5c0ca57001676830b9ad
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Sun Apr 13 11:39:12 2025 +0100
+
+    html page now finished all done
+
+commit 81c101a643494eda42e52a154f226a4db158995f
+Merge: 0487da4 94ee79f
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Sat Apr 12 18:34:19 2025 +0100
+
+    merge with main,new blueprint solution adopted
+
+commit 94ee79fa0edc5c4d8e1a69b4d2d5bc9a47b61ce1
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Sat Apr 12 11:37:16 2025 +0100
+
+    minor fixes to survey endpoints
+
+commit d8a1276b62e52b266b8595dd624756adbff928d8
+Merge: 9deaa23 658036c
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Sat Apr 12 11:20:06 2025 +0100
+
+    Merge remote-tracking branch 'origin/main'
+
+commit 9deaa23195ae6c0eda78d81a8018b7b3e2ecb073
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Sat Apr 12 11:19:41 2025 +0100
+
+    Fixed bug with popup not working by changing app routing
+
+commit 658036cf8ea203ea4dcdb10bdcacb340ade71935
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Fri Apr 11 23:40:38 2025 +0100
+
+    views bit added into my route, stuck to the restructure
+
+commit 58fda6430911aaf51d17eea8353c0e7f43234c21
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 20:11:05 2025 +0100
+
+    cleaning up routes and views
+
+commit 8d9a3c57fc09a56482a9c5c0984d44e0341c01be
+Author: Brandon <119868175+vibrandon@users.noreply.github.com>
+Date:   Fri Apr 11 19:30:53 2025 +0100
+
+    Create README.md
+    
+    basic readme created
+
+commit 95e2d0688e9c22e7b260a58efbfddbb626d2d52b
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 19:24:56 2025 +0100
+
+    Removed files that should not be tracked
+
+commit 44142ff58541c711079dd6752884cc49ea920ac4
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 19:15:57 2025 +0100
+
+    further restructuring and fixing some bugs. Remove ignored files from tracking
+
+commit 71b7c2504808cbb7a2a63d26bb69d5143695857a
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 17:45:58 2025 +0100
+
+    Restructured main branch. May still have some bugs so please sync into your feature branch and debug your sections
+
+commit 0487da44fde3b946f40f5a9e9d28cf88b6481c76
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Fri Apr 11 15:14:29 2025 +0100
+
+    pytest code uploaded,singleton DBAccessor uploaded
+
+commit d6d4a29601673da2da8cbed5583a1bd548c2e090
+Merge: ca37f4d 88cea54
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 01:40:04 2025 +0100
+
+    merged survey-dev into main
+
+commit ca37f4d4648733c3182786d4c8151953a834a7aa
+Merge: 1d2b771 f3f7f4e
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 01:32:26 2025 +0100
+
+    merged match-dev into main
+
+commit 1d2b7710a84c73bb7c5f5bc36d11e7216f532a28
+Merge: e1c2f16 0c44f9a
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 01:30:59 2025 +0100
+
+    merged chatbot-ai into main
+
+commit e1c2f162ff29460b54abc4a7201ce3b1e2dd0a61
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Fri Apr 11 01:11:24 2025 +0100
+
+    some general updates
+
+commit 88cea5407bb76742598c91d6a1025f39bdfa7d3e
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Thu Apr 10 18:42:32 2025 +0100
+
+    Added StudentSurveyForm Draft 1
+    
+    categorised some questions for the purpose of the wellbeing profile
+
+commit c328f076ce62f57afe1939f1ab003c4ac62deed2
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Thu Apr 10 11:36:03 2025 +0100
+
+    Added placeholder code for db integration with surveys
+
+commit 9d1a40c1a8aba696b84b6947ea26f1ed7bdb9327
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Thu Apr 10 11:09:24 2025 +0100
+
+    Added link to the placeholder popup_survey function
+
+commit b0935c67b5a6933c513dff53fc52ce0ff8ce6d24
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Thu Apr 10 01:37:39 2025 +0100
+
+    added survey routes to views, including popup functionality
+    
+    Popups notify student of a new survey being released every Sunday. If not Sunday and the form is not complete - popup reminder to complete survey - note this will always be present in this current version as db integration for survey completion not yet complete
+
+commit 05b79d9b2d4b92793ca32a46f0e0359e5eea092f
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Thu Apr 10 01:32:45 2025 +0100
+
+    Added a placeholder survey form
+
+commit 16190bb1cfab9f9106e8ca6fb2699e27bb0d3c09
+Author: davisgurung <davisgurung@outlook.com>
+Date:   Thu Apr 10 01:31:01 2025 +0100
+
+    timestamp added to survey, inheritance for student+professional survey fixed
+    
+    timestamp needed to record date of survey completion,
+    
+    fixed inheritance from class studentSurvey(db.Model) to studentSurvey(survey), same with professionalSurvey
+
+commit f3f7f4e5054eb446b2a5ab3196c13edafbfbf6bc
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Wed Apr 9 21:23:18 2025 +0100
+
+    continue with last commit, modification on home and base pages
+
+commit 59e35814ab630ba530b2dfcc3c1b9f3df176f228
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Wed Apr 9 20:55:38 2025 +0100
+
+    blueprint adaption and directory restructure
+
+commit 95a00ac0108aab666a63e3f8a55ead454f4bd685
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Wed Apr 9 17:18:23 2025 +0100
+
+    Restructured app so that the features in this branch are seperate to views.py. Added the chatroom functionality using a message model.
+
+commit 0c44f9a0486ad1ea319c5b28dbeec347b725cc03
+Author: r-g222 <rikithagrewal@gmail.com>
+Date:   Wed Apr 9 16:49:03 2025 +0100
+
+    added some of the chatbot forms, the model class and a new folder was needed in the structure to make it work
+
+commit 3fe8ec6ff77383dd82d7d40d54de8f96c838c25a
+Author: Brandon <119868175+vibrandon@users.noreply.github.com>
+Date:   Wed Apr 9 16:08:27 2025 +0100
+
+    Delete .DS_Store
+
+commit 3c14523558906c334925b4479d1f2aea99f57bd0
+Merge: e559ce4 ba978ce
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Wed Apr 9 16:00:18 2025 +0100
+
+    Merge branch 'main' into feature/user-messaging
+
+commit e559ce47ccc787989689bf925f2baee88ff72064
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Wed Apr 9 15:50:57 2025 +0100
+
+    Add .gitignore for messaging feature
+
+commit ba978cececf73ea5a6f40bb08d4a121f1fbec749
+Merge: 5fdf09d bf6328b
+Author: Brandon <119868175+vibrandon@users.noreply.github.com>
+Date:   Wed Apr 9 15:31:35 2025 +0100
+
+    Merge pull request #1 from vibrandon/feature/user-messaging
+    
+    initial feature/user-messaging branch commit
+
+commit bf6328b1718b5ea1591eb41b8d74e941d0bfa3a7
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Wed Apr 9 15:15:03 2025 +0100
+
+    initial feature/user-messaging branch commit
+
+commit eb07e4d8a4b8506358221f36d542853b035aa36a
+Merge: 0a735f7 5fdf09d
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Wed Apr 9 13:39:09 2025 +0100
+
+    Merge branch 'main' into matching_func
+
+commit 6c6380f91028755b06162ff5b73a5d1392144045
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Wed Apr 9 10:07:53 2025 +0100
+
+    Fixed naming error: 'students.studentID' changed to 'students.ID' in wellbeingProfile table
+
+commit 602b9ba7a3257a7d03a969c3e6ccab0e8ba38adf
+Author: mdw-p <matthewperrettmdwp@gmail.com>
+Date:   Wed Apr 9 10:01:19 2025 +0100
+
+    Updated models to remove SAWarning error messages in user table. Added new survey/studentSurvey/professionalSurvey classes in models, and appropriate methods for these. Fixed WellbeingProfile class
+
+commit 5fdf09d1aa09bb4fcaf7d25021ee511d7d02f526
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Wed Apr 9 02:11:21 2025 +0100
+
+    Updates to forms,models and views. Additional admin functionalities added. Templates have been made more consistent.
+
+commit 0a735f71c0770b7498160b6147a3137410b6e2b6
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Wed Apr 9 00:55:29 2025 +0100
+
+    git attribute and ignore file added
+
+commit 7509a01e59ecbbbe0e8a44f3f9dd87cfd68e7652
+Author: fenrir8217 <fenrir8217@protonmail.com>
+Date:   Wed Apr 9 00:54:27 2025 +0100
+
+    Stop tracking sqlite file
+
+commit 36857a3951466d1cc93be1533f78cd4ee861da12
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Tue Apr 8 14:34:06 2025 +0100
+
+    Updates to Models
+
+commit a706fcf9abec2697888e516dba367029cfe46ca7
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Tue Apr 8 13:59:15 2025 +0100
+
+    Updates to Models
+
+commit 1317855eacbed6c37b948613cf22acee150203b3
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Mon Apr 7 15:49:32 2025 +0100
+
+    Updates to favicons, Models and views
+
+commit 4e15413941a1a4eb69ea2685548ff2b6799648bd
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Mon Apr 7 02:37:47 2025 +0100
+
+    Matching updates
+
+commit ffeb8deec7cba8a3a8ff6af27cc3b9afa49f2fe2
+Author: vibrandon <isidro.brandon@yahoo.co.uk>
+Date:   Mon Apr 7 02:17:01 2025 +0100
+
+    Initial commit
