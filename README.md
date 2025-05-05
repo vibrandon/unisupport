@@ -70,16 +70,20 @@ The system that has been implemented includes:
 
   
 
-Matching System: Two key functionalities are implemented, automatic matching and manual matching, both of them are coded following the original requirement. One change was made in automatic matching that is calculating and demonstrating the relevance between students and professionals by taking advantage of a new algorithm. This enhancement improves the system to be more transparent and friendly.
+<h2>Matching System:</h2>
 
-Messaging system: The messaging system has two parts: student-to-professional messaging and student chatrooms, as well as an AI-powered chatbot. To facilitate communication between students and professionals, the chat_with_user() function retrieves older messages (if any) and renders them on the frontend, while the send_message() function handles sending messages between users. The student chatroom enables peer-to-peer interaction by allowing all student users to see and send messages in an open space, handled by the student_chat_room() function, which manages both message posting and fetching recent conversations. Implemented test cases cover positive and negative scenarios, including successful chat between existing users and error handling when attempting to chat with non-existent users.
+Two key functionalities are implemented, automatic matching and manual matching, both of them are coded following the original requirement. One change was made in automatic matching that is calculating and demonstrating the relevance between students and professionals by taking advantage of a new algorithm. This enhancement improves the system to be more transparent and friendly.
+
+<h2>Messaging system:</h2>
+  
+The messaging system has two parts: student-to-professional messaging and student chatrooms, as well as an AI-powered chatbot. To facilitate communication between students and professionals, the chat_with_user() function retrieves older messages (if any) and renders them on the frontend, while the send_message() function handles sending messages between users. The student chatroom enables peer-to-peer interaction by allowing all student users to see and send messages in an open space, handled by the student_chat_room() function, which manages both message posting and fetching recent conversations. Implemented test cases cover positive and negative scenarios, including successful chat between existing users and error handling when attempting to chat with non-existent users.
 
   
 
 The AI-powered chatbot uses a composition relationship as instances of the classes are created each time a user attempts to talk to AI. The chatbot uses a simple keyword-based matching system to provide a response depending on the words detected in the user’s messages. It offers information on how to navigate around the website, how to access other functionalities and provides wellbeing advice to the user. The negative test case results illustrate that the chatbot is capable of handling empty, None and non- string format queries by providing the set response for such scenarios and these three tests are combined into one big test that pytest showed the chatbot passed by 100%. Another functionality that has been implemented is: the chatbot and users chat history is stored both in the live session and the database so the user can see the whole chat history, another functionality relating to this is the new message functionality which deletes the chat history from the both database and live session for the users privacy.
 
   
-
+<h2>Survey and data collection system:</h2>
 The survey system has a weekly survey for students to complete. When a student completes the survey, their wellbeing profile will update with relevant advice for them in order to take better care of their mental health. This works through 4 classes - the student class (which inherits from a general user class); the wellbeing_profile class, which holds information about their wellbeing; and the survey class, which enables the survey feature, and the database accessor class.
 
   
