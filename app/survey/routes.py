@@ -127,7 +127,7 @@ def wellbeing_profile():
 
     if not wellbeing_profile:
         flash("Please complete a wellbeing survey to view your profile.", "info")
-        return redirect(url_for('survey.student_survey'))
+        return redirect(url_for('survey_bp.student_survey'))
 
     status = wellbeing_profile.wellbeingStatus
     score = wellbeing_profile.wellbeingScore
