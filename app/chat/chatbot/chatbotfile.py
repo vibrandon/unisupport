@@ -9,7 +9,7 @@ class ChatbotMessager:
     def response(self, message):
         message = message.lower()
         if not message or message.strip() == "":
-            return "I'm sorry, you haven't typed anything; is there anything I can you with today? Try asking about the matching system, feeling stressed or wellbeing profiles!"
+            return "I'm sorry, you haven't typed anything; is there anything I can help you with today? Try asking about the matching system, feeling stressed or wellbeing profiles!"
         message = message.lower()
 
         if any(word in message for word in ["hey", "hello", "hi", "good morning", "good afternoon", "good evening"]):
