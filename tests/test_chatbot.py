@@ -12,7 +12,7 @@ def test_for_blank_message(chatbot):
     assert isinstance(response, str), "Sorry, the message needs to be a string."
     assert len(response) > 0, "Sorry, the message was empty."
 
-    assert "I'm sorry, you haven't typed anything; is there anything I can you with today? Try asking about the matching system, feeling stressed or wellbeing profiles!" in response
+    assert "I'm sorry, you haven't typed anything; is there anything I can help you with today? Try asking about the matching system, feeling stressed or wellbeing profiles!" in response
 
     assert isinstance(chat_history, list)
     assert len(chat_history) == 2
@@ -30,4 +30,4 @@ def test_for_blank_message(chatbot):
     assert isinstance(chat_history2, list)
     assert len(chat_history2) == 2
 
-# this negative test case checks to ensure a message sent by the user is not none, is a string and that the message sent is not empty it also makes sure the message is not empty.
+# this negative test case checks to ensure a message sent by the user is not none, is a string and that the message sent is not empty.
