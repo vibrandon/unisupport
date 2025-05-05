@@ -24,7 +24,7 @@
       {% for msg in messages %}
         <div class="d-flex mb-2 {% if msg.sender_id == current_user.id %}justify-content-end{% else %}justify-content-start{% endif %}">
           <div class="p-2 rounded {% if msg.sender_id == current_user.id %}bg-primary text-white{% else %}bg-light{% endif %}" style="max-width: 75%;">
-            <strong>{{ msg.sender.firstname }} {{ msg.sender.lastname }}</strong><br>
+            <strong>{{ msg.sender.firstname }} {{ msg.sender.lastname }}</strong><small class="text-muted fst-italic"> {{ msg.sender.degree }}</small><br>
             {{ msg.content }}
             <div class="text-end mt-1" style="font-size: 0.75rem;">
               <small class="text-muted">{{ msg.timestamp.strftime('%Y-%m-%d %H:%M') }}</small>

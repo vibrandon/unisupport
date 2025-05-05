@@ -7,6 +7,8 @@ user_messaging_bp = Blueprint("user_messaging_bp", __name__, url_prefix="/chat/m
 
 db = DBAccessor()  # using DB accessor helper (wraps db calls)
 
+
+# Loads chat partner and past shared messages.
 @user_messaging_bp.route("/<int:user_id>", methods=["GET", "POST"])
 @login_required
 def chat_with_user(user_id):
@@ -25,6 +27,8 @@ def chat_with_user(user_id):
     # Render chatroom template with loaded messages
     return render_template("chatroom.html", title="Chat", messages=message, chat_partner=partner)
 
+
+# Handles sending a message
 @user_messaging_bp.route("/send_message", methods=["POST"])
 @login_required
 def send_message():
@@ -44,6 +48,7 @@ def send_message():
     return redirect(url_for("user_messaging_bp.chat_with_user", user_id=rid))
 
 
+#Student-only chat room: handles posting messages and showing recent chats.
 @user_messaging_bp.route("/student_room", methods=["GET", "POST"])
 @login_required
 def student_chat_room():

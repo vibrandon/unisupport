@@ -18,8 +18,11 @@
     <div class="card shadow-sm mt-4">
         <div class="card-body">
             <h5 class="card-title"><i class="bi bi-people-fill"></i> Start a 1-on-1 Chat</h5>
-            <p class="text-muted">Choose a user to start messaging with:</p>
-
+        {% if current_user.type == 'student' %}
+            <p class="text-muted">Choose a professional to start messaging with:</p>
+        {% else %}
+            <p class="text-muted">Choose a student to start messaging with:</p>
+        {% endif %}
     {% if users %}
     <ul class="list-group mt-4">
         {% for user in users %}
