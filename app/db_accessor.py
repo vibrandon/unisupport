@@ -15,12 +15,16 @@ class DBAccessor:
         student = db.session.scalar(db.select(Student).where(Student.id==id))
         return student
     def match_professional(self,sid,pid):
+        if not( sid and pid ):
+            return False
         student = db.session.scalar(db.select(Student).where(Student.id==sid))
         student.pid = pid
         try:
             db.session.commit()
+            return True 
         except sqlalchemy.exc.SQLAlchemyError as e:
             db.session.rollback()
+            return False 
     def record_student_survey(self,current_user,questions):
         #copy in updated student survey
         try:
