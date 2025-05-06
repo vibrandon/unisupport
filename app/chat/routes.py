@@ -3,8 +3,10 @@ from flask_login import login_required, current_user
 from app.db_accessor import DBAccessor
 
 chat_bp = Blueprint("chat_bp", __name__, url_prefix="/chat/messages", template_folder="templates")
-db = DBAccessor()
+db = DBAccessor() # using Singleton DB accessor helper (wraps db calls)
 
+
+# Route to display chat page with user list based on current user type
 @chat_bp.route("/")
 @login_required
 def chat():

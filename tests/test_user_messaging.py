@@ -9,6 +9,11 @@ from app.models import User
 
 @pytest.fixture
 def test_client():
+    """
+    Pytest fixture to configure a Flask test client with an in-memory SQLite database.
+    This sets the app to testing mode, creates all database tables before the test,
+    and ensures cleanup by removing the session and dropping tables after the test.
+    """
     app.config['TESTING'] = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
 
@@ -19,8 +24,13 @@ def test_client():
             db.session.remove()
             db.drop_all()
 
+
 @pytest.fixture
 def sample_users():
+    """
+    Pytest fixture to create and add two sample User objects to the database.
+    Returns the two user instances after committing them to the session.
+    """
     user1 = User(
         username='user1',
         firstname='First',
@@ -46,7 +56,7 @@ def sample_users():
     return user1, user2
 
 
-#Testing for chat with existing user
+#Testing for chat with existing user - Positive
 def test_chat_with_existing_user(test_client, sample_users):
     user1, user2 = sample_users
     with test_client.session_transaction() as sess:
@@ -57,7 +67,7 @@ def test_chat_with_existing_user(test_client, sample_users):
     assert b"Chat" in response.data
 
 
-#Testing for chat with a user that doesn't exist
+#Testing for chat with a user that doesn't exist - Negative
 def test_chat_with_nonexistent_user(test_client, sample_users):
     user1, _ = sample_users
     with test_client.session_transaction() as sess:
